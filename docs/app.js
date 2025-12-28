@@ -104,8 +104,6 @@ document.getElementById('convert-btn')?.addEventListener('click', () => {
       return;
     }
 
-    console.log(`Found ${rectangles.length} chord diagram(s)`, rectangles);
-
     // Convert each rectangle to a chord and render
     rectangles.forEach((rectangle, index) => {
       try {

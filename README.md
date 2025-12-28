@@ -1,11 +1,13 @@
-# svgguitar-utils
+# Text Guitar Chart
 
-A JavaScript library that adds a few utilities to [svguitar](https://github.com/omnibrain/svguitar).
+This library allows to write fretboard charts in a text format that is easy to read. It also includes utilities to convert the charts in svg using [svguitar](https://github.com/omnibrain/svguitar).
 
-- editableSVGuitar wraps SVGuitar and make it editable
+See the [format](FORMAT.md)
+
+Here is a list of utilities it provides:
+- EditableSVGuitarChord an editable chord chart utility
 - stringToFingering transforms a text representation of a fingering into data that can be used to render that fingering using SVGuitar
-- fingeringToString transforms data into a text representation of a fingering
-- guitar-fingering: is a remark markdown plugin that is used to convert a markdown document containing text representations of fingerings, into a svg images
+- fingeringToString transforms SVGuitar data format into a text representation of a fingering
 
 ## TypeScript Support
 

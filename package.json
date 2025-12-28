@@ -1,7 +1,7 @@
 {
-  "name": "svgguitar-utils",
+  "name": "text-guitar-chart",
   "version": "0.0.0",
-  "description": "A JavaScript library that extends SVGuitar so that is editable",
+  "description": "A JavaScript library to write text based guitar chord charts and convert them to SVG.",
   "main": "index.js",
   "types": "types/index.d.ts",
   "type": "module",
@@ -10,7 +10,7 @@
     "test:watch": "node --test --watch test/*.test.js",
     "build:types": "tsc",
     "build": "node ./scripts/build.js",
-    "serve:demo": "npx http-server -p 8080 demoEditableSVGuitar"
+    "serve:demo": "npx http-server -p 8080 docs"
   },
   "keywords": [
     "guitar",
@@ -27,12 +27,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/username/svgguitar-utils.git"
+    "url": "git+https://github.com/sithmel/text-guitar-chart.git"
   },
   "bugs": {
-    "url": "https://github.com/username/svgguitar-utils/issues"
+    "url": "https://github.com/sithmel/text-guitar-chart/issues"
   },
-  "homepage": "https://github.com/username/svgguitar-utils#readme",
+  "homepage": "https://github.com/sithmel/text-guitar-chart#readme",
   "dependencies": {
     "svguitar": "^2.4.1"
   },

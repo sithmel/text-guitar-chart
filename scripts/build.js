@@ -13,17 +13,17 @@ const root = resolve(__dirname, '..');
 async function run() {
   // Build demo bundle
   await build({
-    entryPoints: [resolve(root, 'demoEditableSVGuitar', 'app.js')],
+    entryPoints: [resolve(root, 'docs', 'app.js')],
     bundle: true,
     format: 'esm',
     platform: 'browser',
     target: ['es2018'],
     sourcemap: true,
-    outfile: resolve(root, 'demoEditableSVGuitar', 'bundle.js'),
+    outfile: resolve(root, 'docs', 'bundle.js'),
     logLevel: 'info',
   });
     
-  const demoSize = readFileSync(resolve(root, 'demoEditableSVGuitar', 'bundle.js')).length;
+  const demoSize = readFileSync(resolve(root, 'docs', 'bundle.js')).length;
   console.log(`EditableSVGuitar demo bundle written: ${demoSize} bytes`);
 }
 
