@@ -8458,7 +8458,7 @@ function layoutChordStrings(strings, columns = 3, spacing = 1) {
   return outputRows.join(rowSeparator);
 }
 
-// demoEditableSVGuitar/app.js
+// docs/app.js
 var editor = (
   /** @type {HTMLElement} */
   document.getElementById("editor")
@@ -8550,7 +8550,6 @@ var _a7;
       console.warn("No chord diagrams found in input");
       return;
     }
-    console.log(`Found ${rectangles.length} chord diagram(s)`, rectangles);
     rectangles.forEach((rectangle, index) => {
       try {
         const chordConfig = stringToFingering(rectangle);

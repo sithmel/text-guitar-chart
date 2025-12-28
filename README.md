@@ -4,6 +4,10 @@ This library allows to write fretboard charts in a text format that is easy to r
 
 See the [format](FORMAT.md)
 
+# How to use
+Use [the editor](https://sithmel.github.io/text-guitar-chart/) to edit the fingering you like. Copy paste the fretboard chart wherever you like!
+
+# Utilities
 Here is a list of utilities it provides:
 - EditableSVGuitarChord an editable chord chart utility
 - stringToFingering transforms a text representation of a fingering into data that can be used to render that fingering using SVGuitar
