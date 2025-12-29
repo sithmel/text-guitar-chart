@@ -167,7 +167,7 @@ describe("fingeringToString", () => {
       const result = fingeringToString(chord);
 
       const expected = `  E dom 7
-  ######
+  #######
   x    x
   ------
   |||3||
@@ -449,7 +449,7 @@ describe("fingeringToString", () => {
       const result = fingeringToString(chord);
 
       const expected = `  E major
-  ######
+  #######
   oooooo
   ------
   ||||||

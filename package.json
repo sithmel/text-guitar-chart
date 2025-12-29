@@ -34,10 +34,10 @@
   },
   "homepage": "https://github.com/sithmel/text-guitar-chart#readme",
   "dependencies": {
-    "svguitar": "^2.4.1"
+    "svguitar": "^2.5.0"
   },
   "devDependencies": {
-    "esbuild": "^0.25.10",
+    "esbuild": "^0.27.2",
     "typescript": "^5.9.2"
   }
 }
