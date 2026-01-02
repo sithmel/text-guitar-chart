@@ -440,6 +440,69 @@ describe("stringToFingering", () => {
       );
       assert.deepEqual(result?.barres, [], "Barres should be empty");
     });
+
+    test("parses E dom 7 chord with finger characters", () => {
+      const fingeringStr = `  E dom 7
+  #######
+  x    x
+  ------
+  |||#||
+  |BE|||
+  ||||D|`;
+
+      const result = stringToFingering(fingeringStr);
+      assert.equal(
+        fingersContains(result, [
+          [
+            5,
+            2,
+            {
+              text: "B",
+              color: "#000000",
+            },
+          ],
+          [
+            4,
+            2,
+            {
+              text: "E",
+              color: "#000000",
+            },
+          ],
+          [
+            3,
+            1,
+            {
+              text: "#",
+              color: "#000000",
+            },
+          ],
+          [
+            2,
+            3,
+            {
+              text: "D",
+              color: "#000000",
+            },
+          ],
+          [6, "x", {text: "", color: "#000000"}],
+          [1, "x", {text: "", color: "#000000"}],
+        ]),
+        true, 
+        "Fingering does not match expected E dom 7 chord with finger numbers"
+      );
+      assert.equal(
+        result?.title,
+        "E dom 7",
+        "Title does not match expected E dom 7"
+      );
+      assert.equal(
+        result?.position,
+        undefined,
+        "Position does not match expected undefined"
+      );
+      assert.deepEqual(result?.barres, [], "Barres should be empty");
+    });
   });
 
   describe("Unicode format parsing", () => {
@@ -857,7 +920,75 @@ describe("stringToFingering", () => {
       );
       assert.deepEqual(result?.barres, [], "Barres should be empty");
     });
+
+    test("parses E dom 7 with finger characters (Unicode format)", () => {
+      const fingeringStr = `  E dom 7
+  ‾‾‾‾‾‾‾‾‾‾‾
+  ×         ×
+  ┌─┬─┬─┬─┬─┐
+  │ │ │ # │ │
+  ├─┼─┼─┼─┼─┤
+  │ B E │ │ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ D │
+  └─┴─┴─┴─┴─┘`;
+
+      const result = stringToFingering(fingeringStr);
+      assert.equal(
+        fingersContains(result, [
+          [
+            5,
+            2,
+            {
+              text: "B",
+              color: "#000000",
+            },
+          ],
+          [
+            4,
+            2,
+            {
+              text: "E",
+              color: "#000000",
+            },
+          ],
+          [
+            3,
+            1,
+            {
+              text: "#",
+              color: "#000000",
+            },
+          ],
+          [
+            2,
+            3,
+            {
+              text: "D",
+              color: "#000000",
+            },
+          ],
+          [6, "x", {text: "", color: "#000000"}],
+          [1, "x", {text: "", color: "#000000"}],
+        ]),
+        true, 
+        "Fingering does not match expected E dom 7 chord with finger numbers"
+      );
+      assert.equal(
+        result?.title,
+        "E dom 7",
+        "Title does not match expected E dom 7"
+      );
+      assert.equal(
+        result?.position,
+        undefined,
+        "Position does not match expected undefined"
+      );
+      assert.deepEqual(result?.barres, [], "Barres should be empty");
+    });
+
   });
+
 
   describe("Edge cases and variations", () => {
     test("handles empty fingering string", () => {
