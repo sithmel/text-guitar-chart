@@ -85,7 +85,7 @@ describe("stringToFingering", () => {
           [6, 0, { text: "", color: "#000000" }],
           [1, 0, { text: "", color: "#000000" }],
         ]),
-        true, 
+        true,
         "Fingering does not match expected A minor chord"
       );
       assert.equal(
@@ -138,11 +138,11 @@ describe("stringToFingering", () => {
               color: "#e74c3c",
             },
           ],
-          [6, "x", {text: "", color: "#000000"}],
-          [5, 0, {text: "", color: "#000000"}],
-          [4, 0, {text: "", color: "#000000"}],
+          [6, "x", { text: "", color: "#000000" }],
+          [5, 0, { text: "", color: "#000000" }],
+          [4, 0, { text: "", color: "#000000" }],
         ]),
-        true, 
+        true,
         "Fingering does not match expected D chord"
       );
       assert.equal(result?.title, "D", "Title does not match expected D");
@@ -167,8 +167,8 @@ describe("stringToFingering", () => {
 
       assert.equal(
         fingersContains(result, [
-          [6, "x", {text: "", color: "#000000"}],
-          [5, "x", {text: "", color: "#000000"}],
+          [6, "x", { text: "", color: "#000000" }],
+          [5, "x", { text: "", color: "#000000" }],
           [
             4,
             1,
@@ -202,7 +202,7 @@ describe("stringToFingering", () => {
             },
           ],
         ]),
-        true, 
+        true,
         "Fingering does not match expected G7 chord"
       );
       assert.equal(result?.title, "G 7", "Title does not match expected G 7");
@@ -223,8 +223,8 @@ describe("stringToFingering", () => {
 
       assert.equal(
         fingersContains(result, [
-          [6, "x", {text: "", color: "#000000"}],
-          [5, "x", {text: "", color: "#000000"}],
+          [6, "x", { text: "", color: "#000000" }],
+          [5, "x", { text: "", color: "#000000" }],
           [
             4,
             1,
@@ -258,7 +258,7 @@ describe("stringToFingering", () => {
             },
           ],
         ]),
-        true, 
+        true,
         "Fingering does not match expected G7 chord"
       );
       assert.equal(result?.title, "G 7", "Title does not match expected G 7");
@@ -279,8 +279,8 @@ describe("stringToFingering", () => {
 
       assert.equal(
         fingersContains(result, [
-          [6, "x", {text: "", color: "#000000"}],
-          [5, "x", {text: "", color: "#000000"}],
+          [6, "x", { text: "", color: "#000000" }],
+          [5, "x", { text: "", color: "#000000" }],
           [
             4,
             1,
@@ -314,7 +314,7 @@ describe("stringToFingering", () => {
             },
           ],
         ]),
-        true, 
+        true,
         "Fingering does not match expected G7 chord"
       );
       assert.equal(result?.title, "G 7", "Title does not match expected G 7");
@@ -335,8 +335,8 @@ describe("stringToFingering", () => {
 
       assert.equal(
         fingersContains(result, [
-          [6, "x", {text: "", color: "#000000"}],
-          [5, "x", {text: "", color: "#000000"}],
+          [6, "x", { text: "", color: "#000000" }],
+          [5, "x", { text: "", color: "#000000" }],
           [
             4,
             1,
@@ -370,7 +370,7 @@ describe("stringToFingering", () => {
             },
           ],
         ]),
-        true, 
+        true,
         "Fingering does not match expected G7 chord"
       );
       assert.equal(result?.title, "G 7", "Title does not match expected G 7");
@@ -422,10 +422,10 @@ describe("stringToFingering", () => {
               color: "#000000",
             },
           ],
-          [6, "x", {text: "", color: "#000000"}],
-          [1, "x", {text: "", color: "#000000"}],
+          [6, "x", { text: "", color: "#000000" }],
+          [1, "x", { text: "", color: "#000000" }],
         ]),
-        true, 
+        true,
         "Fingering does not match expected E dom 7 chord with finger numbers"
       );
       assert.equal(
@@ -485,10 +485,10 @@ describe("stringToFingering", () => {
               color: "#000000",
             },
           ],
-          [6, "x", {text: "", color: "#000000"}],
-          [1, "x", {text: "", color: "#000000"}],
+          [6, "x", { text: "", color: "#000000" }],
+          [1, "x", { text: "", color: "#000000" }],
         ]),
-        true, 
+        true,
         "Fingering does not match expected E dom 7 chord with finger numbers"
       );
       assert.equal(
@@ -549,7 +549,7 @@ describe("stringToFingering", () => {
           [6, 0, { text: "", color: "#000000" }],
           [1, 0, { text: "", color: "#000000" }],
         ]),
-        true, 
+        true,
         "Fingering does not match expected A minor chord"
       );
       assert.equal(
@@ -562,7 +562,8 @@ describe("stringToFingering", () => {
         undefined,
         "Position does not match expected undefined"
       );
-      assert.deepEqual(result?.barres, [], "Barres should be empty");    });
+      assert.deepEqual(result?.barres, [], "Barres should be empty");
+    });
     test("parses D chord (Unicode format)", () => {
       const fingeringStr = `  D
   ‾‾‾‾‾‾‾‾‾‾‾
@@ -603,11 +604,11 @@ describe("stringToFingering", () => {
               color: "#e74c3c",
             },
           ],
-          [6, "x", {text: "", color: "#000000"}],
-          [5, 0, {text: "", color: "#000000"}],
-          [4, 0, {text: "", color: "#000000"}],
+          [6, "x", { text: "", color: "#000000" }],
+          [5, 0, { text: "", color: "#000000" }],
+          [4, 0, { text: "", color: "#000000" }],
         ]),
-        true, 
+        true,
         "Fingering does not match expected D chord"
       );
       assert.equal(result?.title, "D", "Title does not match expected D");
@@ -635,8 +636,8 @@ describe("stringToFingering", () => {
 
       assert.equal(
         fingersContains(result, [
-          [6, "x", {text: "", color: "#000000"}],
-          [5, "x", {text: "", color: "#000000"}],
+          [6, "x", { text: "", color: "#000000" }],
+          [5, "x", { text: "", color: "#000000" }],
           [
             4,
             1,
@@ -670,7 +671,7 @@ describe("stringToFingering", () => {
             },
           ],
         ]),
-        true, 
+        true,
         "Fingering does not match expected G7 chord"
       );
       assert.equal(result?.title, "G 7", "Title does not match expected G 7");
@@ -694,8 +695,8 @@ describe("stringToFingering", () => {
 
       assert.equal(
         fingersContains(result, [
-          [6, "x", {text: "", color: "#000000"}],
-          [5, "x", {text: "", color: "#000000"}],
+          [6, "x", { text: "", color: "#000000" }],
+          [5, "x", { text: "", color: "#000000" }],
           [
             4,
             1,
@@ -729,7 +730,7 @@ describe("stringToFingering", () => {
             },
           ],
         ]),
-        true, 
+        true,
         "Fingering does not match expected G7 chord"
       );
       assert.equal(result?.title, "G 7", "Title does not match expected G 7");
@@ -753,8 +754,8 @@ describe("stringToFingering", () => {
 
       assert.equal(
         fingersContains(result, [
-          [6, "x", {text: "", color: "#000000"}],
-          [5, "x", {text: "", color: "#000000"}],
+          [6, "x", { text: "", color: "#000000" }],
+          [5, "x", { text: "", color: "#000000" }],
           [
             4,
             1,
@@ -788,7 +789,7 @@ describe("stringToFingering", () => {
             },
           ],
         ]),
-        true, 
+        true,
         "Fingering does not match expected G7 chord"
       );
       assert.equal(result?.title, "G 7", "Title does not match expected G 7");
@@ -812,8 +813,8 @@ describe("stringToFingering", () => {
 
       assert.equal(
         fingersContains(result, [
-          [6, "x", {text: "", color: "#000000"}],
-          [5, "x", {text: "", color: "#000000"}],
+          [6, "x", { text: "", color: "#000000" }],
+          [5, "x", { text: "", color: "#000000" }],
           [
             4,
             1,
@@ -847,7 +848,7 @@ describe("stringToFingering", () => {
             },
           ],
         ]),
-        true, 
+        true,
         "Fingering does not match expected G7 chord"
       );
       assert.equal(result?.title, "G 7", "Title does not match expected G 7");
@@ -902,10 +903,10 @@ describe("stringToFingering", () => {
               color: "#000000",
             },
           ],
-          [6, "x", {text: "", color: "#000000"}],
-          [1, "x", {text: "", color: "#000000"}],
+          [6, "x", { text: "", color: "#000000" }],
+          [1, "x", { text: "", color: "#000000" }],
         ]),
-        true, 
+        true,
         "Fingering does not match expected E dom 7 chord with finger numbers"
       );
       assert.equal(
@@ -968,10 +969,10 @@ describe("stringToFingering", () => {
               color: "#000000",
             },
           ],
-          [6, "x", {text: "", color: "#000000"}],
-          [1, "x", {text: "", color: "#000000"}],
+          [6, "x", { text: "", color: "#000000" }],
+          [1, "x", { text: "", color: "#000000" }],
         ]),
-        true, 
+        true,
         "Fingering does not match expected E dom 7 chord with finger numbers"
       );
       assert.equal(
@@ -986,9 +987,7 @@ describe("stringToFingering", () => {
       );
       assert.deepEqual(result?.barres, [], "Barres should be empty");
     });
-
   });
-
 
   describe("Edge cases and variations", () => {
     test("handles empty fingering string", () => {
@@ -1035,14 +1034,10 @@ describe("stringToFingering", () => {
           [6, 0, { text: "", color: "#000000" }],
           [1, 0, { text: "", color: "#000000" }],
         ]),
-        true, 
+        true,
         "Fingering does not match expected A minor chord"
       );
-      assert.equal(
-        result?.title,
-        "",
-        "Title should be empty"
-      );
+      assert.equal(result?.title, "", "Title should be empty");
       assert.equal(
         result?.position,
         undefined,
@@ -1071,7 +1066,7 @@ describe("stringToFingering", () => {
           [5, 0, { text: "", color: "#000000" }],
           [6, 0, { text: "", color: "#000000" }],
         ]),
-        true, 
+        true,
         "Fingering does not match expected E major"
       );
       assert.equal(
@@ -1100,13 +1095,14 @@ describe("stringToFingering", () => {
 
       assert.equal(
         fingersContains(result, [
-          [1, 'x', { text: "", color: "#000000" }],
-          [2, 'x', { text: "", color: "#000000" }],
-          [3, 'x', { text: "", color: "#000000" }],
-          [4, 'x', { text: "", color: "#000000" }],
-          [5, 'x', { text: "", color: "#000000" }],
-          [6, 'x', { text: "", color: "#000000" }],
-        ]), true,
+          [1, "x", { text: "", color: "#000000" }],
+          [2, "x", { text: "", color: "#000000" }],
+          [3, "x", { text: "", color: "#000000" }],
+          [4, "x", { text: "", color: "#000000" }],
+          [5, "x", { text: "", color: "#000000" }],
+          [6, "x", { text: "", color: "#000000" }],
+        ]),
+        true,
         "Fingering does not match expected Muted strings"
       );
       assert.equal(
@@ -1122,7 +1118,7 @@ describe("stringToFingering", () => {
       assert.deepEqual(result?.barres, [], "Barres should be empty");
     });
 
-  test("handles no indications for open strings", () => {
+    test("handles no indications for open strings", () => {
       const fingeringStr = `  Muted
   ######
   ||||||
@@ -1132,7 +1128,7 @@ describe("stringToFingering", () => {
       const result = stringToFingering(fingeringStr);
       assert.equal(
         fingersContains(result, []),
-        true, 
+        true,
         "Fingering does not match expected Muted strings"
       );
       assert.equal(
@@ -1148,7 +1144,7 @@ describe("stringToFingering", () => {
       assert.deepEqual(result?.barres, [], "Barres should be empty");
     });
 
-  test("handles no title or open strings (bug 1)", () => {
+    test("handles no title or open strings (bug 1)", () => {
       const fingeringStr = `  ------
   oooooo
   ||||||
@@ -1163,14 +1159,11 @@ describe("stringToFingering", () => {
           [4, 1, { text: "", color: "#000000" }],
           [5, 1, { text: "", color: "#000000" }],
           [6, 1, { text: "", color: "#000000" }],
-        ]), true,
+        ]),
+        true,
         "Fingering does not match expected strings"
       );
-      assert.equal(
-        result?.title,
-        "",
-        "Title should be undefined"
-      );
+      assert.equal(result?.title, "", "Title should be undefined");
       assert.equal(
         result?.position,
         undefined,
@@ -1179,7 +1172,7 @@ describe("stringToFingering", () => {
       assert.deepEqual(result?.barres, [], "Barres should be empty");
     });
 
-  test("handles no title or open strings in unicode (bug 2)", () => {
+    test("handles no title or open strings in unicode (bug 2)", () => {
       const fingeringStr = `  ┌─┬─┬─┬─┬─┐
   ○ ○ ○ ○ ○ ○
   ├─┼─┼─┼─┼─┤
@@ -1197,14 +1190,128 @@ describe("stringToFingering", () => {
           [4, 1, { text: "", color: "#000000" }],
           [5, 1, { text: "", color: "#000000" }],
           [6, 1, { text: "", color: "#000000" }],
-        ]), true,
+        ]),
+        true,
         "Fingering does not match expected strings"
       );
+      assert.equal(result?.title, "", "Title should be undefined");
       assert.equal(
-        result?.title,
-        "",
-        "Title should be undefined"
+        result?.position,
+        undefined,
+        "Position does not match expected undefined"
       );
+      assert.deepEqual(result?.barres, [], "Barres should be empty");
+    });
+
+    test("handles a line with only numbers (unicode)", () => {
+      const fingeringStr = `  ┌─┬─┬─┬─┬─┐
+  1 2 3 4 5 6
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ │ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ │ │
+  └─┴─┴─┴─┴─┘`;
+
+      const result = stringToFingering(fingeringStr);
+      assert.equal(
+        fingersContains(result, [
+          [1, 1, { text: "6", color: "#000000" }],
+          [2, 1, { text: "5", color: "#000000" }],
+          [3, 1, { text: "4", color: "#000000" }],
+          [4, 1, { text: "3", color: "#000000" }],
+          [5, 1, { text: "2", color: "#000000" }],
+          [6, 1, { text: "1", color: "#000000" }],
+        ]),
+        true,
+        "Fingering does not match expected strings"
+      );
+      assert.equal(result?.title, "", "Title should be undefined");
+      assert.equal(
+        result?.position,
+        undefined,
+        "Position does not match expected undefined"
+      );
+      assert.deepEqual(result?.barres, [], "Barres should be empty");
+    });
+    test("handles a line with only numbers (ascii)", () => {
+      const fingeringStr = `  ------
+  123456
+  ||||||
+  ||||||`;
+
+      const result = stringToFingering(fingeringStr);
+      console.log(JSON.stringify(result, null, 2));
+      assert.equal(
+        fingersContains(result, [
+          [1, 1, { text: "6", color: "#000000" }],
+          [2, 1, { text: "5", color: "#000000" }],
+          [3, 1, { text: "4", color: "#000000" }],
+          [4, 1, { text: "3", color: "#000000" }],
+          [5, 1, { text: "2", color: "#000000" }],
+          [6, 1, { text: "1", color: "#000000" }],
+        ]),
+        true,
+        "Fingering does not match expected strings"
+      );
+      assert.equal(result?.title, "", "Title should be undefined");
+      assert.equal(
+        result?.position,
+        undefined,
+        "Position does not match expected undefined"
+      );
+      assert.deepEqual(result?.barres, [], "Barres should be empty");
+    });
+    test("handles a line with only chars (unicode)", () => {
+      const fingeringStr = `  ┌─┬─┬─┬─┬─┐
+  a b c d e f
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ │ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ │ │
+  └─┴─┴─┴─┴─┘`;
+
+      const result = stringToFingering(fingeringStr);
+      assert.equal(
+        fingersContains(result, [
+          [1, 1, { text: "f", color: "#000000" }],
+          [2, 1, { text: "e", color: "#000000" }],
+          [3, 1, { text: "d", color: "#000000" }],
+          [4, 1, { text: "c", color: "#000000" }],
+          [5, 1, { text: "b", color: "#000000" }],
+          [6, 1, { text: "a", color: "#000000" }],
+        ]),
+        true,
+        "Fingering does not match expected strings"
+      );
+      assert.equal(result?.title, "", "Title should be undefined");
+      assert.equal(
+        result?.position,
+        undefined,
+        "Position does not match expected undefined"
+      );
+      assert.deepEqual(result?.barres, [], "Barres should be empty");
+    });
+    test("handles a line with only chars (ascii)", () => {
+      const fingeringStr = `  ------
+  abcdef
+  ||||||
+  ||||||`;
+
+      const result = stringToFingering(fingeringStr);
+      console.log(JSON.stringify(result, null, 2));
+      assert.equal(
+        fingersContains(result, [
+          [1, 1, { text: "f", color: "#000000" }],
+          [2, 1, { text: "e", color: "#000000" }],
+          [3, 1, { text: "d", color: "#000000" }],
+          [4, 1, { text: "c", color: "#000000" }],
+          [5, 1, { text: "b", color: "#000000" }],
+          [6, 1, { text: "a", color: "#000000" }],
+        ]),
+        true,
+        "Fingering does not match expected strings"
+      );
+      assert.equal(result?.title, "", "Title should be undefined");
       assert.equal(
         result?.position,
         undefined,
