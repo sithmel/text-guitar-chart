@@ -4,14 +4,14 @@ function fingeringToString(chord, options = {}) {
   const { fingers = [], title = "", position: position2 } = chord;
   const stringData = /* @__PURE__ */ new Map();
   let maxFret = 0;
-  const openStrings = /* @__PURE__ */ new Set();
+  const openStrings = /* @__PURE__ */ new Map();
   const mutedStrings = /* @__PURE__ */ new Set();
   for (const finger of fingers) {
     const [string, fret, opts = {}] = finger;
     const optsObject = typeof opts === "object" ? opts : {};
     const { text = "", color = "#000000" } = optsObject;
     if (fret === 0) {
-      openStrings.add(string);
+      openStrings.set(string, text);
     } else if (fret === "x") {
       mutedStrings.add(string);
     } else {
@@ -62,7 +62,8 @@ function buildAsciiOutput(title, stringData, openStrings, mutedStrings, numFrets
     const showTo = lowestMarked > 4 ? 3 : lowestMarked;
     for (let str = 6; str >= showTo; str--) {
       if (openStrings.has(str)) {
-        openLine += "o";
+        const text = openStrings.get(str);
+        openLine += text ? text[0] : "o";
       } else if (mutedStrings.has(str)) {
         openLine += "x";
       } else {
@@ -117,7 +118,8 @@ function buildUnicodeOutput(title, stringData, openStrings, mutedStrings, numFre
     const chars = [];
     for (let str = 6; str >= showTo; str--) {
       if (openStrings.has(str)) {
-        chars.push("\u25CB");
+        const text = openStrings.get(str);
+        chars.push(text ? text[0] : "\u25CB");
       } else if (mutedStrings.has(str)) {
         chars.push("\xD7");
       } else {
@@ -7651,6 +7653,108 @@ var EditableSVGuitarChord = class {
     `;
     this.backdrop.addEventListener("click", () => this.closeDialog());
     document.body.appendChild(this.backdrop);
+    this.createOpenStringDialog();
+  }
+  /**
+   * Create the open string edit dialog
+   */
+  createOpenStringDialog() {
+    this.openStringDialog = document.createElement("div");
+    this.openStringDialog.className = "editable-svguitar-open-string-dialog";
+    this.openStringDialog.style.cssText = `
+      display: none;
+      position: absolute;
+      background: white;
+      border: 2px solid #333;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      z-index: 1000;
+      min-width: 250px;
+    `;
+    const title = document.createElement("h3");
+    title.textContent = "Edit Open String";
+    title.style.cssText = "margin: 0 0 15px 0; font-size: 16px;";
+    const typeSection = document.createElement("div");
+    typeSection.style.cssText = "margin-bottom: 15px;";
+    const typeLabel = document.createElement("div");
+    typeLabel.textContent = "Type:";
+    typeLabel.style.cssText = "font-weight: bold; margin-bottom: 8px;";
+    typeSection.appendChild(typeLabel);
+    const typeOptions = document.createElement("div");
+    typeOptions.style.cssText = "display: flex; gap: 15px;";
+    const openOption = document.createElement("label");
+    openOption.style.cssText = "display: flex; align-items: center; cursor: pointer;";
+    this.openRadio = document.createElement("input");
+    this.openRadio.type = "radio";
+    this.openRadio.name = "openStringType";
+    this.openRadio.value = "0";
+    this.openRadio.checked = true;
+    this.openRadio.addEventListener("change", () => this.updateOpenStringType());
+    const openLabel = document.createElement("span");
+    openLabel.textContent = "Open";
+    openLabel.style.cssText = "margin-left: 5px; font-weight: bold;";
+    openOption.appendChild(this.openRadio);
+    openOption.appendChild(openLabel);
+    const mutedOption = document.createElement("label");
+    mutedOption.style.cssText = "display: flex; align-items: center; cursor: pointer;";
+    this.mutedRadio = document.createElement("input");
+    this.mutedRadio.type = "radio";
+    this.mutedRadio.name = "openStringType";
+    this.mutedRadio.value = "x";
+    this.mutedRadio.addEventListener("change", () => this.updateOpenStringType());
+    const mutedLabel = document.createElement("span");
+    mutedLabel.textContent = "Muted";
+    mutedLabel.style.cssText = "margin-left: 5px; font-weight: bold;";
+    mutedOption.appendChild(this.mutedRadio);
+    mutedOption.appendChild(mutedLabel);
+    typeOptions.appendChild(openOption);
+    typeOptions.appendChild(mutedOption);
+    typeSection.appendChild(typeOptions);
+    this.openStringTextSection = document.createElement("div");
+    this.openStringTextSection.style.cssText = "margin-bottom: 15px;";
+    const textLabel = document.createElement("label");
+    textLabel.textContent = "Text (optional): ";
+    textLabel.style.cssText = "display: block; margin-bottom: 5px; font-weight: bold;";
+    this.openStringTextInput = document.createElement("input");
+    this.openStringTextInput.type = "text";
+    this.openStringTextInput.maxLength = 2;
+    this.openStringTextInput.placeholder = "1-2 chars";
+    this.openStringTextInput.style.cssText = "width: 60px; padding: 4px; border: 1px solid #ccc; border-radius: 3px;";
+    this.openStringTextInput.addEventListener("input", () => this.updateOpenStringText());
+    textLabel.appendChild(this.openStringTextInput);
+    this.openStringTextSection.appendChild(textLabel);
+    const buttonDiv = document.createElement("div");
+    buttonDiv.style.cssText = "display: flex; gap: 10px; justify-content: flex-end;";
+    const removeBtn = document.createElement("button");
+    removeBtn.textContent = "Remove";
+    removeBtn.style.cssText = "padding: 6px 12px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;";
+    removeBtn.addEventListener("click", () => this.removeOpenString());
+    const doneBtn = document.createElement("button");
+    doneBtn.textContent = "Done";
+    doneBtn.style.cssText = "padding: 6px 12px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;";
+    doneBtn.addEventListener("click", () => this.closeOpenStringDialog());
+    buttonDiv.appendChild(removeBtn);
+    buttonDiv.appendChild(doneBtn);
+    this.openStringDialog.appendChild(title);
+    this.openStringDialog.appendChild(typeSection);
+    this.openStringDialog.appendChild(this.openStringTextSection);
+    this.openStringDialog.appendChild(buttonDiv);
+    document.body.appendChild(this.openStringDialog);
+    this.openStringBackdrop = document.createElement("div");
+    this.openStringBackdrop.className = "editable-svguitar-open-string-backdrop";
+    this.openStringBackdrop.style.cssText = `
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+    `;
+    this.openStringBackdrop.addEventListener("click", () => this.closeOpenStringDialog());
+    document.body.appendChild(this.openStringBackdrop);
   }
   /**
    * Set chord configuration
@@ -7849,17 +7953,11 @@ var EditableSVGuitarChord = class {
     const existingFingerIndex = this.chordConfig.fingers.findIndex(([s2, f2]) => s2 === string && (f2 === 0 || f2 === "x"));
     if (existingFingerIndex === -1) {
       this.chordConfig.fingers.push([string, 0]);
+      this.redraw();
+      this.triggerChange();
     } else {
-      const existingFinger = this.chordConfig.fingers[existingFingerIndex];
-      const existingFret = existingFinger[1];
-      if (existingFret === 0) {
-        this.chordConfig.fingers[existingFingerIndex] = [string, "x"];
-      } else if (existingFret === "x") {
-        this.chordConfig.fingers.splice(existingFingerIndex, 1);
-      }
+      this.editOpenString(string, openStringElement);
     }
-    this.redraw();
-    this.triggerChange();
   }
   /**
    * Add a new dot at the specified position
@@ -7893,6 +7991,26 @@ var EditableSVGuitarChord = class {
     this.openDialog();
   }
   /**
+   * Edit an existing open string
+   * @param {number} string
+   * @param {Element} openStringElement
+   */
+  editOpenString(string, openStringElement) {
+    var _a11;
+    const finger = this.chordConfig.fingers.find(([s2, f2]) => s2 === string && (f2 === 0 || f2 === "x"));
+    if (!finger) return;
+    this.currentEditFinger = finger;
+    this.currentEditString = string;
+    this.currentEditElement = openStringElement;
+    const currentFret = finger[1];
+    const currentText = typeof finger[2] === "object" && ((_a11 = finger[2]) == null ? void 0 : _a11.text) || "";
+    this.openRadio.checked = currentFret === 0;
+    this.mutedRadio.checked = currentFret === "x";
+    this.openStringTextInput.value = currentText;
+    this.updateOpenStringTextSectionVisibility();
+    this.openOpenStringDialog();
+  }
+  /**
    * Open the edit dialog
    */
   openDialog() {
@@ -7906,6 +8024,15 @@ var EditableSVGuitarChord = class {
     if (this.blackRadio.checked && !this.textInput.disabled) {
       this.textInput.focus();
     }
+  }
+  /**
+   * Open the open string edit dialog
+   */
+  openOpenStringDialog() {
+    this.isDialogOpen = true;
+    this.openStringDialog.style.display = "block";
+    this.openStringBackdrop.style.display = "block";
+    this.positionOpenStringDialog();
   }
   /**
    * Position dialog relative to the clicked element
@@ -7934,6 +8061,32 @@ var EditableSVGuitarChord = class {
     this.addArrowCSS(arrowSide, elementCenterY, dialogY, dialogRect.height);
   }
   /**
+   * Position the open string dialog
+   */
+  positionOpenStringDialog() {
+    if (!this.currentEditElement || !this.openStringDialog) return;
+    const elementRect = this.currentEditElement.getBoundingClientRect();
+    const dialogRect = this.openStringDialog.getBoundingClientRect();
+    const elementCenterX = elementRect.left + elementRect.width / 2;
+    const elementCenterY = elementRect.top + elementRect.height / 2;
+    let dialogX = elementCenterX + 20;
+    let dialogY = elementCenterY - dialogRect.height / 2;
+    const padding = 10;
+    const maxX = window.innerWidth - dialogRect.width - padding;
+    const maxY = window.innerHeight - dialogRect.height - padding;
+    let arrowSide = "left";
+    if (dialogX > maxX) {
+      dialogX = elementCenterX - dialogRect.width - 20;
+      arrowSide = "right";
+    }
+    if (dialogX < padding) dialogX = padding;
+    if (dialogY < padding) dialogY = padding;
+    if (dialogY > maxY) dialogY = maxY;
+    this.openStringDialog.style.left = `${dialogX}px`;
+    this.openStringDialog.style.top = `${dialogY}px`;
+    this.addOpenStringArrowCSS(arrowSide, elementCenterY, dialogY, dialogRect.height);
+  }
+  /**
    * Add CSS arrow using ::after pseudo-element
    * @param {string} side - 'left' or 'right' indicating arrow direction
    * @param {number} dotY - Y position of the clicked dot
@@ -7945,6 +8098,19 @@ var EditableSVGuitarChord = class {
     const arrowY = Math.max(20, Math.min(dialogHeight - 20, dotY - dialogY));
     this.dialog.classList.add(`arrow-${side}`);
     this.dialog.style.setProperty("--arrow-y", `${arrowY}px`);
+  }
+  /**
+   * Add CSS arrow for open string dialog using ::after pseudo-element
+   * @param {string} side - 'left' or 'right' indicating arrow direction
+   * @param {number} openStringY - Y position of the clicked open string
+   * @param {number} dialogY - Y position of the dialog
+   * @param {number} dialogHeight - Height of the dialog
+   */
+  addOpenStringArrowCSS(side, openStringY, dialogY, dialogHeight) {
+    this.openStringDialog.classList.remove("arrow-left", "arrow-right");
+    const arrowY = Math.max(20, Math.min(dialogHeight - 20, openStringY - dialogY));
+    this.openStringDialog.classList.add(`arrow-${side}`);
+    this.openStringDialog.style.setProperty("--arrow-y", `${arrowY}px`);
   }
   /**
    * Ensure arrow CSS rules are added to the document
@@ -7968,6 +8134,30 @@ var EditableSVGuitarChord = class {
       }
       
       .editable-svguitar-dialog.arrow-right::after {
+        content: '';
+        position: absolute;
+        right: -16px;
+        top: var(--arrow-y, 50px);
+        width: 0;
+        height: 0;
+        border: 8px solid transparent;
+        border-left-color: white;
+        transform: translateY(-50%);
+      }
+
+      .editable-svguitar-open-string-dialog.arrow-left::after {
+        content: '';
+        position: absolute;
+        left: -16px;
+        top: var(--arrow-y, 50px);
+        width: 0;
+        height: 0;
+        border: 8px solid transparent;
+        border-right-color: white;
+        transform: translateY(-50%);
+      }
+      
+      .editable-svguitar-open-string-dialog.arrow-right::after {
         content: '';
         position: absolute;
         right: -16px;
@@ -8012,6 +8202,18 @@ var EditableSVGuitarChord = class {
     this.currentEditElement = null;
   }
   /**
+   * Close the open string edit dialog
+   */
+  closeOpenStringDialog() {
+    this.isDialogOpen = false;
+    this.openStringDialog.style.display = "none";
+    this.openStringBackdrop.style.display = "none";
+    this.openStringDialog.classList.remove("arrow-left", "arrow-right");
+    this.openStringDialog.style.removeProperty("--arrow-y");
+    this.currentEditFinger = null;
+    this.currentEditElement = null;
+  }
+  /**
    * Update text section visibility based on color selection
    */
   updateTextSectionVisibility() {
@@ -8020,6 +8222,17 @@ var EditableSVGuitarChord = class {
     this.textSection.style.display = isBlack ? "block" : "none";
     if (this.textInput) {
       this.textInput.disabled = !isBlack;
+    }
+  }
+  /**
+   * Update text section visibility for open string dialog based on type selection
+   */
+  updateOpenStringTextSectionVisibility() {
+    if (!this.openStringTextSection) return;
+    const isOpen = this.openRadio && this.openRadio.checked;
+    this.openStringTextSection.style.display = isOpen ? "block" : "none";
+    if (this.openStringTextInput) {
+      this.openStringTextInput.disabled = !isOpen;
     }
   }
   /**
@@ -8032,6 +8245,37 @@ var EditableSVGuitarChord = class {
     }
     const fingerOptions = typeof this.currentEditFinger[2] === "object" ? this.currentEditFinger[2] : {};
     this.currentEditFinger[2] = { ...fingerOptions, text: this.textInput.value };
+    this.redraw();
+    this.triggerChange();
+  }
+  /**
+   * Update open string text in real-time
+   */
+  updateOpenStringText() {
+    if (!this.currentEditFinger) return;
+    if (this.currentEditFinger[1] !== 0) return;
+    if (!this.currentEditFinger[2]) {
+      this.currentEditFinger[2] = {};
+    }
+    const fingerOptions = typeof this.currentEditFinger[2] === "object" ? this.currentEditFinger[2] : {};
+    this.currentEditFinger[2] = { ...fingerOptions, text: this.openStringTextInput.value };
+    this.redraw();
+    this.triggerChange();
+  }
+  /**
+   * Update open string type (open vs muted) in real-time
+   */
+  updateOpenStringType() {
+    var _a11;
+    if (!this.currentEditFinger) return;
+    const newFret = this.openRadio.checked ? 0 : "x";
+    this.currentEditFinger[1] = newFret;
+    if (newFret === "x" && typeof this.currentEditFinger[2] === "object" && ((_a11 = this.currentEditFinger[2]) == null ? void 0 : _a11.text)) {
+      this.openStringTextInput.value = "";
+      const fingerOptions = typeof this.currentEditFinger[2] === "object" ? this.currentEditFinger[2] : {};
+      this.currentEditFinger[2] = { ...fingerOptions, text: "" };
+    }
+    this.updateOpenStringTextSectionVisibility();
     this.redraw();
     this.triggerChange();
   }
@@ -8081,6 +8325,21 @@ var EditableSVGuitarChord = class {
     this.closeDialog();
     this.redraw();
     this.triggerChange();
+  }
+  /**
+   * Remove the current open string being edited
+   */
+  removeOpenString() {
+    if (!this.currentEditString) return;
+    const fingerIndex = this.chordConfig.fingers.findIndex(
+      ([s2, f2]) => s2 === this.currentEditString && (f2 === 0 || f2 === "x")
+    );
+    if (fingerIndex !== -1) {
+      this.chordConfig.fingers.splice(fingerIndex, 1);
+      this.redraw();
+      this.triggerChange();
+    }
+    this.closeOpenStringDialog();
   }
   /**
    * Open the settings dialog
@@ -8434,6 +8693,11 @@ function stringToFingering(fingeringStr, options = {}) {
         fingers.push([stringNum, 0, { text: "", color: blackColor }]);
       } else if (char === mutedChar || !isUnicode && char === ASCII_MUTED) {
         fingers.push([stringNum, "x", { text: "", color: blackColor }]);
+      } else if (/\S/.test(char)) {
+        const isStructural = char === ASCII_VERTICAL || char === ASCII_DASH || char === ASCII_EQUALS || char === UNICODE_VERTICAL || char === "\u2500" || char === "\u2550" || [...UNICODE_BOX_CHARS].includes(char);
+        if (!isStructural) {
+          fingers.push([stringNum, 0, { text: char, color: blackColor }]);
+        }
       }
     }
   }

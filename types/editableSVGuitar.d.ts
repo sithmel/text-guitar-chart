@@ -56,6 +56,16 @@ export class EditableSVGuitarChord {
     textInput: HTMLInputElement;
     backdrop: HTMLDivElement;
     /**
+     * Create the open string edit dialog
+     */
+    createOpenStringDialog(): void;
+    openStringDialog: HTMLDivElement;
+    openRadio: HTMLInputElement;
+    mutedRadio: HTMLInputElement;
+    openStringTextSection: HTMLDivElement;
+    openStringTextInput: HTMLInputElement;
+    openStringBackdrop: HTMLDivElement;
+    /**
      * Set chord configuration
      * @param {import("svguitar").Chord} config
      * @returns {EditableSVGuitarChord}
@@ -119,13 +129,27 @@ export class EditableSVGuitarChord {
     currentEditString: number;
     currentEditFret: number;
     /**
+     * Edit an existing open string
+     * @param {number} string
+     * @param {Element} openStringElement
+     */
+    editOpenString(string: number, openStringElement: Element): void;
+    /**
      * Open the edit dialog
      */
     openDialog(): void;
     /**
+     * Open the open string edit dialog
+     */
+    openOpenStringDialog(): void;
+    /**
      * Position dialog relative to the clicked element
      */
     positionDialog(): void;
+    /**
+     * Position the open string dialog
+     */
+    positionOpenStringDialog(): void;
     /**
      * Add CSS arrow using ::after pseudo-element
      * @param {string} side - 'left' or 'right' indicating arrow direction
@@ -135,6 +159,14 @@ export class EditableSVGuitarChord {
      */
     addArrowCSS(side: string, dotY: number, dialogY: number, dialogHeight: number): void;
     /**
+     * Add CSS arrow for open string dialog using ::after pseudo-element
+     * @param {string} side - 'left' or 'right' indicating arrow direction
+     * @param {number} openStringY - Y position of the clicked open string
+     * @param {number} dialogY - Y position of the dialog
+     * @param {number} dialogHeight - Height of the dialog
+     */
+    addOpenStringArrowCSS(side: string, openStringY: number, dialogY: number, dialogHeight: number): void;
+    /**
      * Ensure arrow CSS rules are added to the document
      */
     addCustomCSS(): void;
@@ -143,13 +175,29 @@ export class EditableSVGuitarChord {
      */
     closeDialog(): void;
     /**
+     * Close the open string edit dialog
+     */
+    closeOpenStringDialog(): void;
+    /**
      * Update text section visibility based on color selection
      */
     updateTextSectionVisibility(): void;
     /**
+     * Update text section visibility for open string dialog based on type selection
+     */
+    updateOpenStringTextSectionVisibility(): void;
+    /**
      * Update dot text in real-time
      */
     updateDotText(): void;
+    /**
+     * Update open string text in real-time
+     */
+    updateOpenStringText(): void;
+    /**
+     * Update open string type (open vs muted) in real-time
+     */
+    updateOpenStringType(): void;
     /**
      * Update dot color in real-time
      */
@@ -162,6 +210,10 @@ export class EditableSVGuitarChord {
      * Remove the current dot
      */
     removeDot(): void;
+    /**
+     * Remove the current open string being edited
+     */
+    removeOpenString(): void;
     /**
      * Open the settings dialog
      */

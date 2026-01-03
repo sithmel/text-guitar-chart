@@ -176,6 +176,138 @@ describe("fingeringToString", () => {
 
       assert.equal(result, expected);
     });
+
+    test("outputs open string with custom text character", () => {
+      /** @type {import("svguitar").Chord} */
+      const chord = {
+        fingers: [
+          [2, 1, { text: "", color: "#000000" }],
+          [3, 2, { text: "", color: "#e74c3c" }],
+          [4, 2, { text: "", color: "#000000" }],
+          [5, 0, { text: "", color: "#000000" }],
+          [6, 0, { text: "R", color: "#000000" }],
+          [1, 0, { text: "", color: "#000000" }],
+        ],
+        barres: [],
+        title: "A min",
+      };
+
+      const result = fingeringToString(chord);
+
+      const expected = `  A min
+  ######
+  Ro   o
+  ------
+  ||||o|
+  ||o*||
+  ||||||`;
+
+      assert.equal(result, expected);
+    });
+
+    test("outputs multiple open strings with custom text", () => {
+      /** @type {import("svguitar").Chord} */
+      const chord = {
+        fingers: [
+          [2, 1, { text: "", color: "#000000" }],
+          [6, 0, { text: "R", color: "#000000" }],
+          [5, 0, { text: "5", color: "#000000" }],
+          [4, 0, { text: "", color: "#000000" }],
+          [1, 0, { text: "3", color: "#000000" }],
+        ],
+        barres: [],
+        title: "Test",
+      };
+
+      const result = fingeringToString(chord);
+
+      const expected = `  Test
+  ######
+  R5o  3
+  ------
+  ||||o|
+  ||||||
+  ||||||`;
+
+      assert.equal(result, expected);
+    });
+
+    test("outputs open string with color ignored (no root marker)", () => {
+      /** @type {import("svguitar").Chord} */
+      const chord = {
+        fingers: [
+          [2, 1, { text: "", color: "#000000" }],
+          [6, 0, { text: "R", color: "#e74c3c" }],
+          [5, 0, { text: "", color: "#000000" }],
+        ],
+        barres: [],
+        title: "Test",
+      };
+
+      const result = fingeringToString(chord);
+
+      const expected = `  Test
+  ######
+  Ro
+  ------
+  ||||o|
+  ||||||
+  ||||||`;
+
+      assert.equal(result, expected);
+    });
+
+    test("outputs open string with multi-char text (first char only)", () => {
+      /** @type {import("svguitar").Chord} */
+      const chord = {
+        fingers: [
+          [6, 0, { text: "Root", color: "#000000" }],
+          [5, 0, { text: "AB", color: "#000000" }],
+        ],
+        barres: [],
+        title: "Test",
+      };
+
+      const result = fingeringToString(chord);
+
+      const expected = `  Test
+  ######
+  RA
+  ------
+  ||||||
+  ||||||
+  ||||||`;
+
+      assert.equal(result, expected);
+    });
+
+    test("muted strings always show x regardless of text field", () => {
+      /** @type {import("svguitar").Chord} */
+      const chord = {
+        fingers: [
+          [1, 2, { text: "", color: "#000000" }],
+          [3, 2, { text: "", color: "#000000" }],
+          [2, 3, { text: "", color: "#e74c3c" }],
+          [6, "x", { text: "R", color: "#000000" }],
+          [5, 0, { text: "5", color: "#000000" }],
+          [4, 0, { text: "", color: "#000000" }],
+        ],
+        barres: [],
+        title: "D",
+      };
+
+      const result = fingeringToString(chord);
+
+      const expected = `  D
+  ######
+  x5o
+  ------
+  ||||||
+  |||o|o
+  ||||*|`;
+
+      assert.equal(result, expected);
+    });
   });
 
   describe("Unicode format output", () => {
@@ -400,6 +532,153 @@ describe("fingeringToString", () => {
   │ │ │ │ │ │
   ├─┼─┼─┼─┼─┤
   │ │ │ │ │ │
+  └─┴─┴─┴─┴─┘`;
+
+      assert.equal(result, expected);
+    });
+
+    test("outputs open string with custom text character (Unicode)", () => {
+      /** @type {import("svguitar").Chord} */
+      const chord = {
+        fingers: [
+          [2, 1, { text: "", color: "#000000" }],
+          [3, 2, { text: "", color: "#e74c3c" }],
+          [4, 2, { text: "", color: "#000000" }],
+          [5, 0, { text: "", color: "#000000" }],
+          [6, 0, { text: "R", color: "#000000" }],
+          [1, 0, { text: "", color: "#000000" }],
+        ],
+        barres: [],
+        title: "A min",
+      };
+
+      const result = fingeringToString(chord, { useUnicode: true });
+
+      const expected = `  A min
+  ‾‾‾‾‾‾‾‾‾‾‾
+  R ○       ○
+  ┌─┬─┬─┬─┬─┐
+  │ │ │ │ ○ │
+  ├─┼─┼─┼─┼─┤
+  │ │ ○ ● │ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ │ │
+  └─┴─┴─┴─┴─┘`;
+
+      assert.equal(result, expected);
+    });
+
+    test("outputs multiple open strings with custom text (Unicode)", () => {
+      /** @type {import("svguitar").Chord} */
+      const chord = {
+        fingers: [
+          [2, 1, { text: "", color: "#000000" }],
+          [6, 0, { text: "R", color: "#000000" }],
+          [5, 0, { text: "5", color: "#000000" }],
+          [4, 0, { text: "", color: "#000000" }],
+          [1, 0, { text: "3", color: "#000000" }],
+        ],
+        barres: [],
+        title: "Test",
+      };
+
+      const result = fingeringToString(chord, { useUnicode: true });
+
+      const expected = `  Test
+  ‾‾‾‾‾‾‾‾‾‾‾
+  R 5 ○     3
+  ┌─┬─┬─┬─┬─┐
+  │ │ │ │ ○ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ │ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ │ │
+  └─┴─┴─┴─┴─┘`;
+
+      assert.equal(result, expected);
+    });
+
+    test("outputs open string with color ignored (Unicode)", () => {
+      /** @type {import("svguitar").Chord} */
+      const chord = {
+        fingers: [
+          [2, 1, { text: "", color: "#000000" }],
+          [6, 0, { text: "R", color: "#e74c3c" }],
+          [5, 0, { text: "", color: "#000000" }],
+        ],
+        barres: [],
+        title: "Test",
+      };
+
+      const result = fingeringToString(chord, { useUnicode: true });
+
+      const expected = `  Test
+  ‾‾‾‾‾‾‾‾‾‾‾
+  R ○
+  ┌─┬─┬─┬─┬─┐
+  │ │ │ │ ○ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ │ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ │ │
+  └─┴─┴─┴─┴─┘`;
+
+      assert.equal(result, expected);
+    });
+
+    test("outputs open string with multi-char text (Unicode)", () => {
+      /** @type {import("svguitar").Chord} */
+      const chord = {
+        fingers: [
+          [6, 0, { text: "Root", color: "#000000" }],
+          [5, 0, { text: "AB", color: "#000000" }],
+        ],
+        barres: [],
+        title: "Test",
+      };
+
+      const result = fingeringToString(chord, { useUnicode: true });
+
+      const expected = `  Test
+  ‾‾‾‾‾‾‾‾‾‾‾
+  R A
+  ┌─┬─┬─┬─┬─┐
+  │ │ │ │ │ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ │ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ │ │
+  └─┴─┴─┴─┴─┘`;
+
+      assert.equal(result, expected);
+    });
+
+    test("muted strings always show × regardless of text (Unicode)", () => {
+      /** @type {import("svguitar").Chord} */
+      const chord = {
+        fingers: [
+          [1, 2, { text: "", color: "#000000" }],
+          [3, 2, { text: "", color: "#000000" }],
+          [2, 3, { text: "", color: "#e74c3c" }],
+          [6, "x", { text: "R", color: "#000000" }],
+          [5, 0, { text: "5", color: "#000000" }],
+          [4, 0, { text: "", color: "#000000" }],
+        ],
+        barres: [],
+        title: "D",
+      };
+
+      const result = fingeringToString(chord, { useUnicode: true });
+
+      const expected = `  D
+  ‾‾‾‾‾‾‾‾‾‾‾
+  × 5 ○
+  ┌─┬─┬─┬─┬─┐
+  │ │ │ │ │ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ ○ │ ○
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ ● │
   └─┴─┴─┴─┴─┘`;
 
       assert.equal(result, expected);

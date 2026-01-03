@@ -1121,6 +1121,8 @@ describe("stringToFingering", () => {
     test("handles no indications for open strings", () => {
       const fingeringStr = `  Muted
   ######
+      
+  ------
   ||||||
   ||||||
   ||||||`;
@@ -1320,5 +1322,176 @@ describe("stringToFingering", () => {
       assert.deepEqual(result?.barres, [], "Barres should be empty");
     });
 
+  });
+
+  describe("Open strings with text labels", () => {
+    test("parses ASCII format with numeric labels in open string section", () => {
+      const fingeringStr = `  12xoxx
+  ------
+  ||||||
+  ||||||
+  ||||||`;
+
+      const result = stringToFingering(fingeringStr);
+      assert.equal(
+        fingersContains(result, [
+          [6, 0, { text: "1", color: "#000000" }],
+          [5, 0, { text: "2", color: "#000000" }],
+          [4, "x", { text: "", color: "#000000" }],
+          [3, 0, { text: "", color: "#000000" }],
+          [2, "x", { text: "", color: "#000000" }],
+          [1, "x", { text: "", color: "#000000" }],
+        ]),
+        true,
+        "Fingering does not match expected pattern"
+      );
+      assert.equal(result?.title, "");
+      assert.deepEqual(result?.barres, []);
+    });
+
+    test("parses ASCII format with alphabetic labels", () => {
+      const fingeringStr = `  AxBoCx
+  ------
+  ||||||
+  ||||||`;
+
+      const result = stringToFingering(fingeringStr);
+      assert.equal(
+        fingersContains(result, [
+          [6, 0, { text: "A", color: "#000000" }],
+          [5, "x", { text: "", color: "#000000" }],
+          [4, 0, { text: "B", color: "#000000" }],
+          [3, 0, { text: "", color: "#000000" }],
+          [2, 0, { text: "C", color: "#000000" }],
+          [1, "x", { text: "", color: "#000000" }],
+        ]),
+        true,
+        "Fingering does not match expected pattern"
+      );
+      assert.equal(result?.title, "");
+      assert.deepEqual(result?.barres, []);
+    });
+
+    test("parses ASCII format with * character as text label", () => {
+      const fingeringStr = `  *xoo  
+  ------
+  ||||||
+  ||||||`;
+
+      const result = stringToFingering(fingeringStr);
+      assert.equal(
+        fingersContains(result, [
+          [6, 0, { text: "*", color: "#000000" }],
+          [5, "x", { text: "", color: "#000000" }],
+          [4, 0, { text: "", color: "#000000" }],
+          [3, 0, { text: "", color: "#000000" }],
+        ]),
+        true,
+        "Fingering does not match expected pattern"
+      );
+      assert.equal(result?.title, "");
+      assert.deepEqual(result?.barres, []);
+    });
+
+    test("parses Unicode format with text labels", () => {
+      const fingeringStr = `  × ○ A     5
+  ┌─┬─┬─┬─┬─┐
+  │ │ │ │ │ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ │ │
+  └─┴─┴─┴─┴─┘`;
+
+      const result = stringToFingering(fingeringStr);
+      assert.equal(
+        fingersContains(result, [
+          [6, "x", { text: "", color: "#000000" }],
+          [5, 0, { text: "", color: "#000000" }],
+          [4, 0, { text: "A", color: "#000000" }],
+          [1, 0, { text: "5", color: "#000000" }],
+        ]),
+        true,
+        "Fingering does not match expected pattern"
+      );
+      assert.equal(result?.title, "");
+      assert.deepEqual(result?.barres, []);
+    });
+
+    test("parses Unicode format with ● character as text label", () => {
+      const fingeringStr = `  ● × ○ R   
+  ┌─┬─┬─┬─┬─┐
+  │ │ │ │ │ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ │ │
+  └─┴─┴─┴─┴─┘`;
+
+      const result = stringToFingering(fingeringStr);
+      assert.equal(
+        fingersContains(result, [
+          [6, 0, { text: "●", color: "#000000" }],
+          [5, "x", { text: "", color: "#000000" }],
+          [4, 0, { text: "", color: "#000000" }],
+          [3, 0, { text: "R", color: "#000000" }],
+        ]),
+        true,
+        "Fingering does not match expected pattern"
+      );
+      assert.equal(result?.title, "");
+      assert.deepEqual(result?.barres, []);
+    });
+
+    test("parses full G7 chord with labeled open strings (Unicode)", () => {
+      const fingeringStr = `  G 7
+  ‾‾‾‾‾‾‾‾‾‾‾
+  × ○ A     5
+  ╒═╤═╤═╤═╤═╕
+  │ │ ● │ │ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ ○ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ ○ │ ○
+  └─┴─┴─┴─┴─┘`;
+
+      const result = stringToFingering(fingeringStr);
+      assert.equal(
+        fingersContains(result, [
+          [6, "x", { text: "", color: "#000000" }],
+          [5, 0, { text: "", color: "#000000" }],
+          [4, 0, { text: "A", color: "#000000" }],
+          [1, 0, { text: "5", color: "#000000" }],
+          [4, 1, { text: "", color: "#e74c3c" }],
+          [2, 2, { text: "", color: "#000000" }],
+          [3, 3, { text: "", color: "#000000" }],
+          [1, 3, { text: "", color: "#000000" }],
+        ]),
+        true,
+        "Fingering does not match expected G7 chord"
+      );
+      assert.equal(result?.title, "G 7");
+      assert.equal(result?.position, 1);
+      assert.deepEqual(result?.barres, []);
+    });
+
+    test("parses special characters as labels", () => {
+      const fingeringStr = `  #♭♯oxx
+  ------
+  ||||||
+  ||||||`;
+
+      const result = stringToFingering(fingeringStr);
+      assert.equal(
+        fingersContains(result, [
+          [6, 0, { text: "#", color: "#000000" }],
+          [5, 0, { text: "♭", color: "#000000" }],
+          [4, 0, { text: "♯", color: "#000000" }],
+          [3, 0, { text: "", color: "#000000" }],
+          [2, "x", { text: "", color: "#000000" }],
+          [1, "x", { text: "", color: "#000000" }],
+        ]),
+        true,
+        "Fingering does not match expected pattern"
+      );
+      assert.equal(result?.title, "");
+      assert.deepEqual(result?.barres, []);
+    });
   });
 });

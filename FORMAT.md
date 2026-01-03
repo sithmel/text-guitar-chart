@@ -37,7 +37,8 @@ Note: Position 1 can be represented in two ways:
 This section contains up to 6 elements (one for each string). Trailing spaces are trimmed from the line. Each position can be:
 - " " (space) means that the string at this position is neither muted nor played
 - "x" means that the string at this position is muted
-- "o" means that the string at this position is played (open string) 
+- "o" means that the string at this position is played (open string)
+- Any other character means the string is played as an open string (fret 0) with that character displayed as a text label. If multiple characters are provided, only the first character is used. The color field is ignored for open strings - they always render with the default appearance regardless of color value. 
 
 ### fretboard section
 This section is mandatory and at least 3 rows long (3 frets).
@@ -92,6 +93,14 @@ Examples:
   ||||o|
   |||o|o
 
+  A min
+  ######
+  Ro   o
+  ------
+  ||||o|
+  ||o*||
+  ||||||
+
 ```
 
 ## unicode format
@@ -112,6 +121,7 @@ This section contains up to 6 elements (one for each string) separated by spaces
 - " " (space) means that the string at this position is neither muted nor played
 - "×" means that the string at this position is muted
 - "○" means that the string at this position is played (open string)
+- Any other character means the string is played as an open string (fret 0) with that character displayed as a text label. If multiple characters are provided, only the first character is used. The color field is ignored for open strings - they always render with the default appearance regardless of color value.
 
 ### fretboard section
 This section is mandatory and at least 3 frets long. It is built as a grid:
@@ -187,6 +197,17 @@ Example:
   │ │ │ │ ○ │
   ├─┼─┼─┼─┼─┤
   │ │ │ ○ │ ○
+  └─┴─┴─┴─┴─┘
+
+  A min
+  ‾‾‾‾‾‾‾‾‾‾‾
+  R ○       ○
+  ┌─┬─┬─┬─┬─┐
+  │ │ │ │ ○ │
+  ├─┼─┼─┼─┼─┤
+  │ │ ○ ● │ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ │ │
   └─┴─┴─┴─┴─┘
 
 ```
@@ -274,4 +295,72 @@ Unicode format:
   ├─┼─┼─┼─┼─┤
   │ │ │ │ │ │
   └─┴─┴─┴─┴─┘
+```
+
+## Open strings with text labels
+
+Open strings can display custom text labels by using any character other than space, 'o'/'○', or 'x'/'×' in the open string section. These labels are useful for showing note names, scale degrees, intervals, or other musical information.
+
+### ASCII format examples
+
+Single character labels:
+```
+  12xoxx
+  ------
+  ||||||
+  ||||||
+  ||||||
+```
+This shows string 6 with label "1", string 5 with label "2", string 4 muted, string 3 open (no label), strings 2 and 1 muted.
+
+Mixed labels and symbols:
+```
+  AxBoCx
+  ------
+  ||||||
+  ||||||
+```
+This shows strings with labels "A", "B", and "C" mixed with muted and open strings.
+
+Special characters as labels:
+```
+  #♭♯oxx
+  ------
+  ||||||
+  ||||||
+```
+Musical symbols like sharp (#), flat (♭), and natural (♯) can be used as labels.
+
+### Unicode format examples
+
+Labels with spacing:
+```
+  × ○ A     5
+  ┌─┬─┬─┬─┬─┐
+  │ │ │ │ │ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ │ │
+  └─┴─┴─┴─┴─┘
+```
+This shows string 6 muted, string 5 open (no label), string 4 with label "A", and string 1 with label "5".
+
+Complete chord with labeled open strings:
+```
+  G 7
+  ‾‾‾‾‾‾‾‾‾‾‾
+  × ○ A     5
+  ╒═╤═╤═╤═╤═╕
+  │ │ ● │ │ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ ○ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ ○ │ ○
+  └─┴─┴─┴─┴─┘
+```
+
+### Important notes about text labels on open strings
+
+1. **Multi-character text**: If multiple characters are provided for a single string position (e.g., "Root"), only the first character will be displayed.
+2. **Color ignored**: The color field is ignored for open strings. Even if a non-black color (like `#e74c3c`) is specified in the data structure, open strings always render with the default appearance and do not show root markers.
+3. **Muted strings override text**: Strings marked as muted ('x' or fret value "x") always display as muted regardless of any text field in the data structure.
 ```
