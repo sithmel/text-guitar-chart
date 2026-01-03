@@ -8035,56 +8035,77 @@ var EditableSVGuitarChord = class {
     this.positionOpenStringDialog();
   }
   /**
+   * Calculate absolute position for a dialog relative to a reference element
+   * @param {HTMLElement} dialog - The dialog element to position
+   * @param {Element} referenceElement - The element to position relative to
+   * @param {object} options - Positioning options
+   * @param {'beside'|'below'} [options.placement] - Whether to place beside or below the reference
+   * @param {number} [options.offset] - Distance from reference element
+   * @returns {{x: number, y: number, arrowSide: string, elementCenterY: number}}
+   */
+  calculateDialogPosition(dialog, referenceElement, options = {}) {
+    const { placement = "beside", offset = 20 } = options;
+    const elementRect = referenceElement.getBoundingClientRect();
+    const dialogRect = dialog.getBoundingClientRect();
+    const elementCenterX = elementRect.left + elementRect.width / 2;
+    const elementCenterY = elementRect.top + elementRect.height / 2;
+    let dialogX, dialogY;
+    let arrowSide = "left";
+    const padding = 10;
+    const maxX = window.innerWidth - dialogRect.width - padding;
+    const maxY = window.innerHeight - dialogRect.height - padding;
+    if (placement === "beside") {
+      dialogX = elementCenterX + offset;
+      dialogY = elementCenterY - dialogRect.height / 2;
+      if (dialogX > maxX) {
+        dialogX = elementCenterX - dialogRect.width - offset;
+        arrowSide = "right";
+      }
+    } else if (placement === "below") {
+      dialogX = elementRect.left;
+      dialogY = elementRect.bottom + offset;
+      if (dialogY > maxY) {
+        dialogY = elementRect.top - dialogRect.height - offset;
+      }
+    }
+    if (dialogX < padding) dialogX = padding;
+    if (dialogX > maxX) dialogX = maxX;
+    if (dialogY < padding) dialogY = padding;
+    if (dialogY > maxY) dialogY = maxY;
+    return {
+      x: dialogX + window.scrollX,
+      y: dialogY + window.scrollY,
+      arrowSide,
+      elementCenterY
+    };
+  }
+  /**
    * Position dialog relative to the clicked element
    */
   positionDialog() {
     if (!this.currentEditElement || !this.dialog) return;
-    const elementRect = this.currentEditElement.getBoundingClientRect();
+    const position2 = this.calculateDialogPosition(this.dialog, this.currentEditElement, {
+      placement: "beside",
+      offset: 20
+    });
+    this.dialog.style.left = `${position2.x}px`;
+    this.dialog.style.top = `${position2.y}px`;
     const dialogRect = this.dialog.getBoundingClientRect();
-    const elementCenterX = elementRect.left + elementRect.width / 2;
-    const elementCenterY = elementRect.top + elementRect.height / 2;
-    let dialogX = elementCenterX + 20;
-    let dialogY = elementCenterY - dialogRect.height / 2;
-    const padding = 10;
-    const maxX = window.innerWidth - dialogRect.width - padding;
-    const maxY = window.innerHeight - dialogRect.height - padding;
-    let arrowSide = "left";
-    if (dialogX > maxX) {
-      dialogX = elementCenterX - dialogRect.width - 20;
-      arrowSide = "right";
-    }
-    if (dialogX < padding) dialogX = padding;
-    if (dialogY < padding) dialogY = padding;
-    if (dialogY > maxY) dialogY = maxY;
-    this.dialog.style.left = `${dialogX}px`;
-    this.dialog.style.top = `${dialogY}px`;
-    this.addArrowCSS(arrowSide, elementCenterY, dialogY, dialogRect.height);
+    this.addArrowCSS(position2.arrowSide, position2.elementCenterY, position2.y - window.scrollY, dialogRect.height);
   }
   /**
    * Position the open string dialog
    */
   positionOpenStringDialog() {
     if (!this.currentEditElement || !this.openStringDialog) return;
-    const elementRect = this.currentEditElement.getBoundingClientRect();
+    const position2 = this.calculateDialogPosition(this.openStringDialog, this.currentEditElement, {
+      placement: "beside",
+      offset: 20
+    });
+    this.openStringDialog.style.left = `${position2.x}px`;
+    this.openStringDialog.style.top = `${position2.y}px`;
     const dialogRect = this.openStringDialog.getBoundingClientRect();
-    const elementCenterX = elementRect.left + elementRect.width / 2;
-    const elementCenterY = elementRect.top + elementRect.height / 2;
-    let dialogX = elementCenterX + 20;
-    let dialogY = elementCenterY - dialogRect.height / 2;
-    const padding = 10;
-    const maxX = window.innerWidth - dialogRect.width - padding;
-    const maxY = window.innerHeight - dialogRect.height - padding;
-    let arrowSide = "left";
-    if (dialogX > maxX) {
-      dialogX = elementCenterX - dialogRect.width - 20;
-      arrowSide = "right";
-    }
-    if (dialogX < padding) dialogX = padding;
-    if (dialogY < padding) dialogY = padding;
-    if (dialogY > maxY) dialogY = maxY;
-    this.openStringDialog.style.left = `${dialogX}px`;
-    this.openStringDialog.style.top = `${dialogY}px`;
-    this.addOpenStringArrowCSS(arrowSide, elementCenterY, dialogY, dialogRect.height);
+    this.addOpenStringArrowCSS(position2.arrowSide, position2.elementCenterY, position2.y - window.scrollY, dialogRect.height);
   }
   /**
    * Add CSS arrow using ::after pseudo-element
@@ -8357,19 +8378,12 @@ var EditableSVGuitarChord = class {
    */
   positionSettingsDialog() {
     if (!this.settingsButton || !this.settingsDialog) return;
-    const buttonRect = this.settingsButton.getBoundingClientRect();
-    const dialogRect = this.settingsDialog.getBoundingClientRect();
-    let dialogX = buttonRect.left;
-    let dialogY = buttonRect.bottom + 5;
-    const padding = 10;
-    const maxX = window.innerWidth - dialogRect.width - padding;
-    const maxY = window.innerHeight - dialogRect.height - padding;
-    if (dialogX > maxX) dialogX = maxX;
-    if (dialogX < padding) dialogX = padding;
-    if (dialogY > maxY) dialogY = buttonRect.top - dialogRect.height - 5;
-    if (dialogY < padding) dialogY = padding;
-    this.settingsDialog.style.left = `${dialogX}px`;
-    this.settingsDialog.style.top = `${dialogY}px`;
+    const position2 = this.calculateDialogPosition(this.settingsDialog, this.settingsButton, {
+      placement: "below",
+      offset: 5
+    });
+    this.settingsDialog.style.left = `${position2.x}px`;
+    this.settingsDialog.style.top = `${position2.y}px`;
   }
   /**
    * Close the settings dialog
