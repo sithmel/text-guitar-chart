@@ -157,6 +157,11 @@ function layout (columnNumber){
 }
 
 // Batch conversion
+document.getElementById('layout-1-btn')?.addEventListener('click', () => {
+  layout(1);
+});
+
+// Batch conversion
 document.getElementById('layout-2-btn')?.addEventListener('click', () => {
   layout(2);
 });

@@ -44,7 +44,7 @@ function fingeringToString(chord, options = {}) {
   }
 }
 function buildAsciiOutput(title, stringData, openStrings, mutedStrings, numFrets, position2) {
-  var _a11;
+  var _a12;
   const lines = [];
   if (title && title.length > 0) {
     const clampedTitle = title.length > 15 ? title.slice(0, 15) : title;
@@ -81,7 +81,7 @@ function buildAsciiOutput(title, stringData, openStrings, mutedStrings, numFrets
       line = "  ";
     }
     for (let str = 6; str >= 1; str--) {
-      const fingerInfo = (_a11 = stringData.get(str)) == null ? void 0 : _a11.get(fret);
+      const fingerInfo = (_a12 = stringData.get(str)) == null ? void 0 : _a12.get(fret);
       if (fingerInfo) {
         if (fingerInfo.color !== "#000000") {
           line += "*";
@@ -99,7 +99,7 @@ function buildAsciiOutput(title, stringData, openStrings, mutedStrings, numFrets
   return lines.join("\n");
 }
 function buildUnicodeOutput(title, stringData, openStrings, mutedStrings, numFrets, position2) {
-  var _a11;
+  var _a12;
   const lines = [];
   if (title && title.length > 0) {
     const clampedTitle = title.length > 15 ? title.slice(0, 15) : title;
@@ -138,7 +138,7 @@ function buildUnicodeOutput(title, stringData, openStrings, mutedStrings, numFre
       line = "  ";
     }
     for (let str = 6; str >= 1; str--) {
-      const fingerInfo = (_a11 = stringData.get(str)) == null ? void 0 : _a11.get(fret);
+      const fingerInfo = (_a12 = stringData.get(str)) == null ? void 0 : _a12.get(fret);
       if (fingerInfo) {
         if (fingerInfo.color !== "#000000") {
           line += "\u25CF";
@@ -787,16 +787,16 @@ var Color = class _Color {
     } else if (typeof a2 === "string") {
       if (isRgb.test(a2)) {
         const noWhitespace = a2.replace(whitespace, "");
-        const [_a12, _b2, _c2] = rgb.exec(noWhitespace).slice(1, 4).map((v2) => parseInt(v2));
-        Object.assign(this, { _a: _a12, _b: _b2, _c: _c2, _d: 0, space: "rgb" });
+        const [_a13, _b2, _c2] = rgb.exec(noWhitespace).slice(1, 4).map((v2) => parseInt(v2));
+        Object.assign(this, { _a: _a13, _b: _b2, _c: _c2, _d: 0, space: "rgb" });
       } else if (isHex.test(a2)) {
         const hexParse = (v2) => parseInt(v2, 16);
-        const [, _a12, _b2, _c2] = hex.exec(sixDigitHex(a2)).map(hexParse);
-        Object.assign(this, { _a: _a12, _b: _b2, _c: _c2, _d: 0, space: "rgb" });
+        const [, _a13, _b2, _c2] = hex.exec(sixDigitHex(a2)).map(hexParse);
+        Object.assign(this, { _a: _a13, _b: _b2, _c: _c2, _d: 0, space: "rgb" });
       } else throw Error("Unsupported string format, can't construct Color");
     }
-    const { _a: _a11, _b, _c, _d } = this;
-    const components = this.space === "rgb" ? { r: _a11, g: _b, b: _c } : this.space === "xyz" ? { x: _a11, y: _b, z: _c } : this.space === "hsl" ? { h: _a11, s: _b, l: _c } : this.space === "lab" ? { l: _a11, a: _b, b: _c } : this.space === "lch" ? { l: _a11, c: _b, h: _c } : this.space === "cmyk" ? { c: _a11, m: _b, y: _c, k: _d } : {};
+    const { _a: _a12, _b, _c, _d } = this;
+    const components = this.space === "rgb" ? { r: _a12, g: _b, b: _c } : this.space === "xyz" ? { x: _a12, y: _b, z: _c } : this.space === "hsl" ? { h: _a12, s: _b, l: _c } : this.space === "lab" ? { l: _a12, a: _b, b: _c } : this.space === "lch" ? { l: _a12, c: _b, h: _c } : this.space === "cmyk" ? { c: _a12, m: _b, y: _c, k: _d } : {};
     Object.assign(this, components);
   }
   /*
@@ -898,8 +898,8 @@ var Color = class _Color {
     return color;
   }
   hsl() {
-    const { _a: _a11, _b, _c } = this.rgb();
-    const [r2, g2, b2] = [_a11, _b, _c].map((v2) => v2 / 255);
+    const { _a: _a12, _b, _c } = this.rgb();
+    const [r2, g2, b2] = [_a12, _b, _c].map((v2) => v2 / 255);
     const max = Math.max(r2, g2, b2);
     const min = Math.min(r2, g2, b2);
     const l2 = (max + min) / 2;
@@ -911,8 +911,8 @@ var Color = class _Color {
     return color;
   }
   cmyk() {
-    const { _a: _a11, _b, _c } = this.rgb();
-    const [r2, g2, b2] = [_a11, _b, _c].map((v2) => v2 / 255);
+    const { _a: _a12, _b, _c } = this.rgb();
+    const [r2, g2, b2] = [_a12, _b, _c].map((v2) => v2 / 255);
     const k2 = Math.min(1 - r2, 1 - g2, 1 - b2);
     if (k2 === 1) {
       return new _Color(0, 0, 0, 1, "cmyk");
@@ -927,10 +927,10 @@ var Color = class _Color {
   Input and Output methods
   */
   _clamped() {
-    const { _a: _a11, _b, _c } = this.rgb();
+    const { _a: _a12, _b, _c } = this.rgb();
     const { max, min, round } = Math;
     const format = (v2) => max(0, min(round(v2), 255));
-    return [_a11, _b, _c].map(format);
+    return [_a12, _b, _c].map(format);
   }
   toHex() {
     const [r2, g2, b2] = this._clamped().map(componentHex);
@@ -945,8 +945,8 @@ var Color = class _Color {
     return string;
   }
   toArray() {
-    const { _a: _a11, _b, _c, _d, space } = this;
-    return [_a11, _b, _c, _d, space];
+    const { _a: _a12, _b, _c, _d, space } = this;
+    return [_a12, _b, _c, _d, space];
   }
   /*
   Generating random colors
@@ -6286,8 +6286,8 @@ var Renderer = (
         curY = radius + radius * Math.sin(a2 * Math.PI / 180);
         points.push([curX, curY]);
       }
-      var lines = points.reduce(function(acc, _a11) {
-        var _b = __read(_a11, 2), posX = _b[0], posY = _b[1];
+      var lines = points.reduce(function(acc, _a12) {
+        var _b = __read(_a12, 2), posX = _b[0], posY = _b[1];
         return "".concat(acc, " L").concat(posX, " ").concat(posY);
       }, "");
       return "M".concat(curX, " ").concat(curY, " ").concat(lines);
@@ -6371,7 +6371,7 @@ var RoughJsRenderer = (
     RoughJsRenderer2.prototype.embedDefs = function() {
       var _this = this;
       setTimeout(function() {
-        var _a11, _b, _c;
+        var _a12, _b, _c;
         if (_this.svgNode.querySelector("defs [data-svguitar-def]")) {
           return;
         }
@@ -6382,7 +6382,7 @@ var RoughJsRenderer = (
         }
         var template = document.createElement("template");
         template.innerHTML = defs.trim();
-        var defsToAdd = (_c = (_b = (_a11 = template.content.firstChild) === null || _a11 === void 0 ? void 0 : _a11.firstChild) === null || _b === void 0 ? void 0 : _b.parentElement) === null || _c === void 0 ? void 0 : _c.children;
+        var defsToAdd = (_c = (_b = (_a12 = template.content.firstChild) === null || _a12 === void 0 ? void 0 : _a12.firstChild) === null || _b === void 0 ? void 0 : _b.parentElement) === null || _c === void 0 ? void 0 : _c.children;
         if (defsToAdd) {
           SVGArray.from(defsToAdd).forEach(function(def) {
             def.setAttribute("data-svguitar-def", "true");
@@ -6397,7 +6397,7 @@ var RoughJsRenderer = (
       this.svgNode.appendChild(titleEl);
     };
     RoughJsRenderer2.prototype.circle = function(x2, y2, diameter, strokeWidth, strokeColor, fill, classes2) {
-      var _a11;
+      var _a12;
       var options = {
         fill: fill || "none",
         fillWeight: 2.5,
@@ -6408,7 +6408,7 @@ var RoughJsRenderer = (
         options.strokeWidth = strokeWidth;
       }
       var circle = this.rc.circle(x2 + diameter / 2, y2 + diameter / 2, diameter, options);
-      (_a11 = circle.classList).add.apply(_a11, __spreadArray([], __read(RoughJsRenderer2.toClassArray(classes2)), false));
+      (_a12 = circle.classList).add.apply(_a12, __spreadArray([], __read(RoughJsRenderer2.toClassArray(classes2)), false));
       this.svgNode.appendChild(circle);
       return RoughJsRenderer2.boxToElement(circle.getBBox(), function() {
         return circle ? circle.remove() : void 0;
@@ -6425,7 +6425,7 @@ var RoughJsRenderer = (
       this.svgNode.remove();
     };
     RoughJsRenderer2.prototype.line = function(x1, y1, x2, y2, strokeWidth, color, classes2) {
-      var _a11;
+      var _a12;
       if (strokeWidth > 5 && (x1 - x2 === 0 || y1 - y2 === 0)) {
         if (Math.abs(x1 - x2) > Math.abs(y1 - y2)) {
           this.rect(x1, y1, x2 - x1, strokeWidth, 0, color, color);
@@ -6437,12 +6437,12 @@ var RoughJsRenderer = (
           strokeWidth,
           stroke: color
         });
-        (_a11 = line.classList).add.apply(_a11, __spreadArray([], __read(RoughJsRenderer2.toClassArray(classes2)), false));
+        (_a12 = line.classList).add.apply(_a12, __spreadArray([], __read(RoughJsRenderer2.toClassArray(classes2)), false));
         this.svgNode.appendChild(line);
       }
     };
     RoughJsRenderer2.prototype.rect = function(x2, y2, width2, height2, strokeWidth, strokeColor, classes2, fill, radius) {
-      var _a11, _b;
+      var _a12, _b;
       var rect2 = this.rc.rectangle(x2, y2, width2, height2, {
         // fill: fill || 'none',
         fill: "none",
@@ -6463,7 +6463,7 @@ var RoughJsRenderer = (
         roughness: 1.5
       });
       rect.setAttribute("transform", "translate(".concat(x2, ", ").concat(y2, ")"));
-      (_a11 = rect.classList).add.apply(_a11, __spreadArray([], __read(RoughJsRenderer2.toClassArray(classes2)), false));
+      (_a12 = rect.classList).add.apply(_a12, __spreadArray([], __read(RoughJsRenderer2.toClassArray(classes2)), false));
       (_b = rect2.classList).add.apply(_b, __spreadArray([], __read(RoughJsRenderer2.toClassArray(classes2)), false));
       this.svgNode.appendChild(rect);
       this.svgNode.appendChild(rect2);
@@ -6472,7 +6472,7 @@ var RoughJsRenderer = (
       });
     };
     RoughJsRenderer2.prototype.arc = function(x2, y2, width2, height2, direction, strokeWidth, strokeColor, classes2, fill) {
-      var _a11;
+      var _a12;
       var path = Renderer.arcBarrePath(x2, y2, width2, height2, direction);
       var arc = this.rc.path(path, {
         fill: fill || "none",
@@ -6480,14 +6480,14 @@ var RoughJsRenderer = (
         stroke: strokeColor || fill || "none",
         roughness: 1.5
       });
-      (_a11 = arc.classList).add.apply(_a11, __spreadArray([], __read(RoughJsRenderer2.toClassArray(classes2)), false));
+      (_a12 = arc.classList).add.apply(_a12, __spreadArray([], __read(RoughJsRenderer2.toClassArray(classes2)), false));
       this.svgNode.appendChild(arc);
       return RoughJsRenderer2.boxToElement(arc.getBBox(), function() {
         return arc.remove();
       });
     };
     RoughJsRenderer2.prototype.triangle = function(x2, y2, size2, strokeWidth, strokeColor, classes2, fill) {
-      var _a11;
+      var _a12;
       var triangle = this.rc.path(Renderer.trianglePath(0, 0, size2), {
         fill: fill || "none",
         fillWeight: 2.5,
@@ -6495,14 +6495,14 @@ var RoughJsRenderer = (
         roughness: 1.5
       });
       triangle.setAttribute("transform", "translate(".concat(x2, ", ").concat(y2, ")"));
-      (_a11 = triangle.classList).add.apply(_a11, __spreadArray([], __read(RoughJsRenderer2.toClassArray(classes2)), false));
+      (_a12 = triangle.classList).add.apply(_a12, __spreadArray([], __read(RoughJsRenderer2.toClassArray(classes2)), false));
       this.svgNode.appendChild(triangle);
       return RoughJsRenderer2.boxToElement(triangle.getBBox(), function() {
         return triangle.remove();
       });
     };
     RoughJsRenderer2.prototype.pentagon = function(x2, y2, size2, strokeWidth, strokeColor, fill, classes2, spikes) {
-      var _a11;
+      var _a12;
       if (spikes === void 0) {
         spikes = 5;
       }
@@ -6513,7 +6513,7 @@ var RoughJsRenderer = (
         roughness: 1.5
       });
       pentagon.setAttribute("transform", "translate(".concat(x2, ", ").concat(y2, ")"));
-      (_a11 = pentagon.classList).add.apply(_a11, __spreadArray([], __read(RoughJsRenderer2.toClassArray(classes2)), false));
+      (_a12 = pentagon.classList).add.apply(_a12, __spreadArray([], __read(RoughJsRenderer2.toClassArray(classes2)), false));
       this.svgNode.appendChild(pentagon);
       return RoughJsRenderer2.boxToElement(pentagon.getBBox(), function() {
         return pentagon.remove();
@@ -6530,7 +6530,7 @@ var RoughJsRenderer = (
       this.svgNode.insertBefore(bg, this.svgNode.firstChild);
     };
     RoughJsRenderer2.prototype.text = function(text, x2, y2, fontSize, color, fontFamily, alignment, classes2, plain2) {
-      var _a11;
+      var _a12;
       var txtElem = document.createElementNS("http://www.w3.org/2000/svg", "text");
       txtElem.setAttributeNS(null, "x", String(x2));
       txtElem.setAttributeNS(null, "y", String(y2));
@@ -6558,15 +6558,15 @@ var RoughJsRenderer = (
         default:
           throw new Error("Invalid alignment ".concat(alignment));
       }
-      (_a11 = txtElem.classList).add.apply(_a11, __spreadArray([], __read(RoughJsRenderer2.toClassArray(classes2)), false));
+      (_a12 = txtElem.classList).add.apply(_a12, __spreadArray([], __read(RoughJsRenderer2.toClassArray(classes2)), false));
       txtElem.setAttributeNS(null, "x", String(x2 + xOffset));
       txtElem.setAttributeNS(null, "y", String(y2 + (plain2 ? 0 : bbox2.height / 2)));
       return RoughJsRenderer2.boxToElement(txtElem.getBBox(), txtElem.remove.bind(txtElem));
     };
     RoughJsRenderer2.boxToElement = function(box, remove) {
-      var _a11, _b, _c, _d;
+      var _a12, _b, _c, _d;
       return {
-        width: (_a11 = box.width) !== null && _a11 !== void 0 ? _a11 : 0,
+        width: (_a12 = box.width) !== null && _a12 !== void 0 ? _a12 : 0,
         height: (_b = box.height) !== null && _b !== void 0 ? _b : 0,
         x: (_c = box.x) !== null && _c !== void 0 ? _c : 0,
         y: (_d = box.y) !== null && _d !== void 0 ? _d : 0,
@@ -6801,23 +6801,23 @@ var SVGuitarChord = (
       });
     }
     SVGuitarChord2.plugin = function(plugin) {
-      var _a11;
+      var _a12;
       var currentPlugins = this.plugins;
-      var BaseWithPlugins = (_a11 = /** @class */
+      var BaseWithPlugins = (_a12 = /** @class */
       (function(_super) {
         __extends(class_1, _super);
         function class_1() {
           return _super !== null && _super.apply(this, arguments) || this;
         }
         return class_1;
-      })(this), _a11.plugins = currentPlugins.concat(plugin), _a11);
+      })(this), _a12.plugins = currentPlugins.concat(plugin), _a12);
       return BaseWithPlugins;
     };
     Object.defineProperty(SVGuitarChord2.prototype, "renderer", {
       get: function() {
-        var _a11;
+        var _a12;
         if (!this.rendererInternal) {
-          var style = (_a11 = this.settings.style) !== null && _a11 !== void 0 ? _a11 : defaultSettings.style;
+          var style = (_a12 = this.settings.style) !== null && _a12 !== void 0 ? _a12 : defaultSettings.style;
           switch (style) {
             case ChordStyle.normal:
               this.rendererInternal = new SvgJsRenderer(this.container);
@@ -6848,14 +6848,14 @@ var SVGuitarChord = (
       return this;
     };
     SVGuitarChord2.prototype.draw = function() {
-      var _a11;
+      var _a12;
       this.clear();
       this.drawBackground();
       if (this.settings.svgTitle) {
         this.renderer.title(this.settings.svgTitle);
       }
       var y2;
-      y2 = this.drawTitle((_a11 = this.settings.titleFontSize) !== null && _a11 !== void 0 ? _a11 : defaultSettings.titleFontSize);
+      y2 = this.drawTitle((_a12 = this.settings.titleFontSize) !== null && _a12 !== void 0 ? _a12 : defaultSettings.titleFontSize);
       y2 = this.drawEmptyStringIndicators(y2);
       y2 = this.drawTopFret(y2);
       this.drawPosition(y2);
@@ -6897,11 +6897,11 @@ var SVGuitarChord = (
     };
     SVGuitarChord2.prototype.drawTunings = function(y2) {
       var _this = this;
-      var _a11, _b, _c, _d, _e;
+      var _a12, _b, _c, _d, _e;
       var padding = this.fretSpacing() / 5;
       var stringXPositions = this.stringXPos();
       var strings = this.numStrings();
-      var color = (_b = (_a11 = this.settings.tuningsColor) !== null && _a11 !== void 0 ? _a11 : this.settings.color) !== null && _b !== void 0 ? _b : defaultSettings.color;
+      var color = (_b = (_a12 = this.settings.tuningsColor) !== null && _a12 !== void 0 ? _a12 : this.settings.color) !== null && _b !== void 0 ? _b : defaultSettings.color;
       var tuning = (_c = this.settings.tuning) !== null && _c !== void 0 ? _c : defaultSettings.tuning;
       var fontFamily = (_d = this.settings.fontFamily) !== null && _d !== void 0 ? _d : defaultSettings.fontFamily;
       var tuningsFontSize = (_e = this.settings.tuningsFontSize) !== null && _e !== void 0 ? _e : defaultSettings.tuningsFontSize;
@@ -6909,7 +6909,7 @@ var SVGuitarChord = (
       tuning.forEach(function(tuning_, i2) {
         if (i2 < strings) {
           var classNames = [ElementType.TUNING, "".concat(ElementType.TUNING, "-").concat(i2)];
-          var _a12 = _this.coordinates(stringXPositions[i2], y2 + padding), textX = _a12.x, textY = _a12.y;
+          var _a13 = _this.coordinates(stringXPositions[i2], y2 + padding), textX = _a13.x, textY = _a13.y;
           var tuningText = _this.renderer.text(tuning_, textX, textY, tuningsFontSize, color, fontFamily, Alignment.MIDDLE, classNames, true);
           if (tuning_) {
             text = tuningText;
@@ -6922,12 +6922,12 @@ var SVGuitarChord = (
       return y2;
     };
     SVGuitarChord2.prototype.drawWatermark = function(y2) {
-      var _a11, _b, _c, _d, _e, _f;
+      var _a12, _b, _c, _d, _e, _f;
       if (!this.settings.watermark) {
         return y2;
       }
       var padding = this.fretSpacing() / 5;
-      var orientation = (_a11 = this.settings.orientation) !== null && _a11 !== void 0 ? _a11 : defaultSettings.orientation;
+      var orientation = (_a12 = this.settings.orientation) !== null && _a12 !== void 0 ? _a12 : defaultSettings.orientation;
       var stringXPositions = this.stringXPos();
       var endX = stringXPositions[stringXPositions.length - 1];
       var startX = stringXPositions[0];
@@ -6950,8 +6950,8 @@ var SVGuitarChord = (
     };
     SVGuitarChord2.prototype.drawPosition = function(y2) {
       var _this = this;
-      var _a11, _b, _c, _d, _e, _f, _g, _h, _j;
-      var position2 = (_b = (_a11 = this.chordInternal.position) !== null && _a11 !== void 0 ? _a11 : this.settings.position) !== null && _b !== void 0 ? _b : defaultSettings.position;
+      var _a12, _b, _c, _d, _e, _f, _g, _h, _j;
+      var position2 = (_b = (_a12 = this.chordInternal.position) !== null && _a12 !== void 0 ? _a12 : this.settings.position) !== null && _b !== void 0 ? _b : defaultSettings.position;
       var noPosition = (_c = this.settings.noPosition) !== null && _c !== void 0 ? _c : defaultSettings.noPosition;
       if (position2 <= 1 || noPosition) {
         return;
@@ -6999,8 +6999,8 @@ var SVGuitarChord = (
       this.renderer.text(text, textX, textY, size2, color, fontFamily, Alignment.MIDDLE, className, true);
     };
     SVGuitarChord2.prototype.drawTopEdges = function(y2) {
-      var _a11;
-      var orientation = (_a11 = this.settings.orientation) !== null && _a11 !== void 0 ? _a11 : defaultSettings.orientation;
+      var _a12;
+      var orientation = (_a12 = this.settings.orientation) !== null && _a12 !== void 0 ? _a12 : defaultSettings.orientation;
       var xTopRight = orientation === Orientation.vertical ? constants.width : y2;
       this.renderer.circle(0, 0, 0, 0, "transparent", "none", "top-left");
       this.renderer.circle(xTopRight, 0, 0, 0, "transparent", "none", "top-right");
@@ -7011,20 +7011,20 @@ var SVGuitarChord = (
       }
     };
     SVGuitarChord2.prototype.topFretSize = function() {
-      var _a11, _b, _c, _d, _e;
+      var _a12, _b, _c, _d, _e;
       var strokeWidth = this.strokeWidth();
-      var position2 = (_b = (_a11 = this.chordInternal.position) !== null && _a11 !== void 0 ? _a11 : this.settings.position) !== null && _b !== void 0 ? _b : defaultSettings.position;
+      var position2 = (_b = (_a12 = this.chordInternal.position) !== null && _a12 !== void 0 ? _a12 : this.settings.position) !== null && _b !== void 0 ? _b : defaultSettings.position;
       var noPositon = (_c = this.settings.noPosition) !== null && _c !== void 0 ? _c : defaultSettings.noPosition;
       var nutWidth = (_e = (_d = this.settings.nutWidth) !== null && _d !== void 0 ? _d : this.settings.nutWidth) !== null && _e !== void 0 ? _e : defaultSettings.nutWidth;
       return position2 > 1 || noPositon ? strokeWidth : nutWidth;
     };
     SVGuitarChord2.prototype.drawTopFret = function(y2) {
-      var _a11, _b;
+      var _a12, _b;
       var strokeWidth = this.strokeWidth();
       var stringXpositions = this.stringXPos();
       var startX = stringXpositions[0] - strokeWidth / 2;
       var endX = stringXpositions[stringXpositions.length - 1] + strokeWidth / 2;
-      var color = (_b = (_a11 = this.settings.fretColor) !== null && _a11 !== void 0 ? _a11 : this.settings.color) !== null && _b !== void 0 ? _b : defaultSettings.color;
+      var color = (_b = (_a12 = this.settings.fretColor) !== null && _a12 !== void 0 ? _a12 : this.settings.color) !== null && _b !== void 0 ? _b : defaultSettings.color;
       var fretSize = this.topFretSize();
       var _c = this.coordinates(startX, y2 + fretSize / 2), lineX1 = _c.x, lineY1 = _c.y;
       var _d = this.coordinates(endX, y2 + fretSize / 2), lineX2 = _d.x, lineY2 = _d.y;
@@ -7032,9 +7032,9 @@ var SVGuitarChord = (
       return y2 + fretSize;
     };
     SVGuitarChord2.prototype.stringXPos = function() {
-      var _a11;
+      var _a12;
       var strings = this.numStrings();
-      var sidePadding = (_a11 = this.settings.sidePadding) !== null && _a11 !== void 0 ? _a11 : defaultSettings.sidePadding;
+      var sidePadding = (_a12 = this.settings.sidePadding) !== null && _a12 !== void 0 ? _a12 : defaultSettings.sidePadding;
       var startX = constants.width * sidePadding;
       var stringsSpacing = this.stringSpacing();
       return range(strings).map(function(i2) {
@@ -7042,16 +7042,16 @@ var SVGuitarChord = (
       });
     };
     SVGuitarChord2.prototype.numStrings = function() {
-      var _a11;
-      return (_a11 = this.settings.strings) !== null && _a11 !== void 0 ? _a11 : defaultSettings.strings;
+      var _a12;
+      return (_a12 = this.settings.strings) !== null && _a12 !== void 0 ? _a12 : defaultSettings.strings;
     };
     SVGuitarChord2.prototype.numFrets = function() {
-      var _a11;
-      return (_a11 = this.settings.frets) !== null && _a11 !== void 0 ? _a11 : defaultSettings.frets;
+      var _a12;
+      return (_a12 = this.settings.frets) !== null && _a12 !== void 0 ? _a12 : defaultSettings.frets;
     };
     SVGuitarChord2.prototype.stringSpacing = function() {
-      var _a11;
-      var sidePadding = (_a11 = this.settings.sidePadding) !== null && _a11 !== void 0 ? _a11 : defaultSettings.sidePadding;
+      var _a12;
+      var sidePadding = (_a12 = this.settings.sidePadding) !== null && _a12 !== void 0 ? _a12 : defaultSettings.sidePadding;
       var strings = this.numStrings();
       var startX = constants.width * sidePadding;
       var endX = constants.width - startX;
@@ -7059,21 +7059,21 @@ var SVGuitarChord = (
       return width2 / (strings - 1);
     };
     SVGuitarChord2.prototype.fingerSize = function() {
-      var _a11;
-      var relativeFingerSize = (_a11 = this.settings.fingerSize) !== null && _a11 !== void 0 ? _a11 : defaultSettings.fingerSize;
+      var _a12;
+      var relativeFingerSize = (_a12 = this.settings.fingerSize) !== null && _a12 !== void 0 ? _a12 : defaultSettings.fingerSize;
       return relativeFingerSize * this.stringSpacing();
     };
     SVGuitarChord2.prototype.arcBarHeight = function() {
       return this.fingerSize() / 1.5;
     };
     SVGuitarChord2.prototype.strokeWidth = function() {
-      var _a11;
-      return (_a11 = this.settings.strokeWidth) !== null && _a11 !== void 0 ? _a11 : defaultSettings.strokeWidth;
+      var _a12;
+      return (_a12 = this.settings.strokeWidth) !== null && _a12 !== void 0 ? _a12 : defaultSettings.strokeWidth;
     };
     SVGuitarChord2.prototype.fretSpacing = function() {
-      var _a11;
+      var _a12;
       var stringSpacing = this.stringSpacing();
-      var fretSize = (_a11 = this.settings.fretSize) !== null && _a11 !== void 0 ? _a11 : defaultSettings.fretSize;
+      var fretSize = (_a12 = this.settings.fretSize) !== null && _a12 !== void 0 ? _a12 : defaultSettings.fretSize;
       return stringSpacing * fretSize;
     };
     SVGuitarChord2.prototype.fretLinesYPos = function(startY) {
@@ -7089,28 +7089,28 @@ var SVGuitarChord = (
     };
     SVGuitarChord2.prototype.drawEmptyStringIndicators = function(y2) {
       var _this = this;
-      var _a11, _b, _c, _d, _e, _f;
+      var _a12, _b, _c, _d, _e, _f;
       var stringXPositions = this.stringXPos();
       var stringSpacing = this.stringSpacing();
-      var emptyStringIndicatorSize = (_a11 = this.settings.emptyStringIndicatorSize) !== null && _a11 !== void 0 ? _a11 : defaultSettings.emptyStringIndicatorSize;
+      var emptyStringIndicatorSize = (_a12 = this.settings.emptyStringIndicatorSize) !== null && _a12 !== void 0 ? _a12 : defaultSettings.emptyStringIndicatorSize;
       var size2 = emptyStringIndicatorSize * stringSpacing;
       var padding = size2 / 3;
       var color = (_b = this.settings.color) !== null && _b !== void 0 ? _b : defaultSettings.color;
       var strokeWidth = (_c = this.settings.strokeWidth) !== null && _c !== void 0 ? _c : defaultSettings.strokeWidth;
       var hasEmpty = false;
-      this.chordInternal.fingers.filter(function(_a12) {
-        var _b2 = __read(_a12, 2), value = _b2[1];
+      this.chordInternal.fingers.filter(function(_a13) {
+        var _b2 = __read(_a13, 2), value = _b2[1];
         return value === SILENT || value === OPEN;
-      }).map(function(_a12) {
-        var _b2 = __read(_a12, 3), index = _b2[0], value = _b2[1], textOrOptions = _b2[2];
+      }).map(function(_a13) {
+        var _b2 = __read(_a13, 3), index = _b2[0], value = _b2[1], textOrOptions = _b2[2];
         return [
           _this.toArrayIndex(index),
           value,
           textOrOptions
         ];
-      }).forEach(function(_a12) {
+      }).forEach(function(_a13) {
         var _b2, _c2, _d2, _e2, _f2, _g;
-        var _h = __read(_a12, 3), stringIndex = _h[0], value = _h[1], textOrOptions = _h[2];
+        var _h = __read(_a13, 3), stringIndex = _h[0], value = _h[1], textOrOptions = _h[2];
         hasEmpty = true;
         var fingerOptions = SVGuitarChord2.getFingerOptions(textOrOptions);
         var effectiveStrokeWidth = (_b2 = fingerOptions.strokeWidth) !== null && _b2 !== void 0 ? _b2 : strokeWidth;
@@ -7156,9 +7156,9 @@ var SVGuitarChord = (
     };
     SVGuitarChord2.prototype.drawGrid = function(y2) {
       var _this = this;
-      var _a11, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+      var _a12, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
       var frets = this.numFrets();
-      var fretSize = (_a11 = this.settings.fretSize) !== null && _a11 !== void 0 ? _a11 : defaultSettings.fretSize;
+      var fretSize = (_a12 = this.settings.fretSize) !== null && _a12 !== void 0 ? _a12 : defaultSettings.fretSize;
       var relativeFingerSize = (_b = this.settings.fingerSize) !== null && _b !== void 0 ? _b : defaultSettings.fingerSize;
       var stringXPositions = this.stringXPos();
       var fretYPositions = this.fretLinesYPos(y2);
@@ -7177,19 +7177,19 @@ var SVGuitarChord = (
       var fingerTextSize = (_k = this.settings.fingerTextSize) !== null && _k !== void 0 ? _k : defaultSettings.fingerTextSize;
       fretYPositions.forEach(function(fretY, i2) {
         var classNames = [ElementType.FRET, "".concat(ElementType.FRET, "-").concat(i2)];
-        var _a12 = _this.coordinates(startX, fretY), lineX1 = _a12.x, lineY1 = _a12.y;
+        var _a13 = _this.coordinates(startX, fretY), lineX1 = _a13.x, lineY1 = _a13.y;
         var _b2 = _this.coordinates(endX, fretY), lineX2 = _b2.x, lineY2 = _b2.y;
         _this.renderer.line(lineX1, lineY1, lineX2, lineY2, strokeWidth, fretColor, classNames);
       });
       stringXPositions.forEach(function(stringX, i2) {
         var classNames = [ElementType.STRING, "".concat(ElementType.STRING, "-").concat(i2)];
-        var _a12 = _this.coordinates(stringX, y2), lineX1 = _a12.x, lineY1 = _a12.y;
+        var _a13 = _this.coordinates(stringX, y2), lineX1 = _a13.x, lineY1 = _a13.y;
         var _b2 = _this.coordinates(stringX, y2 + height2 + strokeWidth / 2), lineX2 = _b2.x, lineY2 = _b2.y;
         _this.renderer.line(lineX1, lineY1, lineX2, lineY2, strokeWidth, fretColor, classNames);
       });
-      this.chordInternal.barres.forEach(function(_a12) {
+      this.chordInternal.barres.forEach(function(_a13) {
         var _b2, _c2, _d2, _e2, _f2, _g2;
-        var fret = _a12.fret, fromString = _a12.fromString, toString = _a12.toString, style = _a12.style, text = _a12.text, color = _a12.color, textColor = _a12.textColor, strokeColor = _a12.strokeColor, className = _a12.className, individualBarreChordStrokeWidth = _a12.strokeWidth;
+        var fret = _a13.fret, fromString = _a13.fromString, toString = _a13.toString, style = _a13.style, text = _a13.text, color = _a13.color, textColor = _a13.textColor, strokeColor = _a13.strokeColor, className = _a13.className, individualBarreChordStrokeWidth = _a13.strokeWidth;
         var barreCenterY = fretYPositions[fret - 1] - strokeWidth / 4 - fretSpacing / 2;
         var fromStringX = stringXPositions[_this.toArrayIndex(fromString)];
         var distance = Math.abs(toString - fromString) * stringSpacing;
@@ -7221,18 +7221,18 @@ var SVGuitarChord = (
           _this.renderer.text(text, textX, textY, fingerTextSize, textColor !== null && textColor !== void 0 ? textColor : fingerTextColor, fontFamily, Alignment.MIDDLE, textClassNames, true);
         }
       });
-      this.chordInternal.fingers.filter(function(_a12) {
-        var _b2 = __read(_a12, 2), value = _b2[1];
+      this.chordInternal.fingers.filter(function(_a13) {
+        var _b2 = __read(_a13, 2), value = _b2[1];
         return value !== SILENT && value !== OPEN;
-      }).map(function(_a12) {
-        var _b2 = __read(_a12, 3), stringIndex = _b2[0], fretIndex = _b2[1], text = _b2[2];
+      }).map(function(_a13) {
+        var _b2 = __read(_a13, 3), stringIndex = _b2[0], fretIndex = _b2[1], text = _b2[2];
         return [
           _this.toArrayIndex(stringIndex),
           fretIndex,
           text
         ];
-      }).forEach(function(_a12) {
-        var _b2 = __read(_a12, 3), stringIndex = _b2[0], fretIndex = _b2[1], textOrOptions = _b2[2];
+      }).forEach(function(_a13) {
+        var _b2 = __read(_a13, 3), stringIndex = _b2[0], fretIndex = _b2[1], textOrOptions = _b2[2];
         var fingerCenterX = startX + stringIndex * stringSpacing;
         var fingerCenterY = y2 + fretIndex * fretSpacing - fretSpacing / 2;
         var fingerOptions = SVGuitarChord2.getFingerOptions(textOrOptions);
@@ -7246,7 +7246,7 @@ var SVGuitarChord = (
       });
       if ((_l = this.settings.showFretMarkers) !== null && _l !== void 0 ? _l : defaultSettings.showFretMarkers) {
         (_m = this.settings.fretMarkers) === null || _m === void 0 ? void 0 : _m.forEach(function(fretMarker) {
-          var _a12, _b2, _c2, _d2, _e2;
+          var _a13, _b2, _c2, _d2, _e2;
           var fretMarkerOptions = typeof fretMarker == "number" ? {
             fret: fretMarker
           } : fretMarker;
@@ -7256,7 +7256,7 @@ var SVGuitarChord = (
           var fretMarkerIndex = fretMarkerOptions.fret;
           var fretMarkerCenterX = constants.width / 2;
           var fretMarkerCenterY = y2 + (fretMarkerIndex + 1) * fretSpacing - fretSpacing / 2;
-          var fretMarkerSize = (_a12 = _this.settings.fretMarkerSize) !== null && _a12 !== void 0 ? _a12 : defaultSettings.fretMarkerSize;
+          var fretMarkerSize = (_a13 = _this.settings.fretMarkerSize) !== null && _a13 !== void 0 ? _a13 : defaultSettings.fretMarkerSize;
           var fretMarkerColor = (_b2 = _this.settings.fretMarkerColor) !== null && _b2 !== void 0 ? _b2 : defaultSettings.fretMarkerColor;
           var classNames = __spreadArray([
             ElementType.FRET_MARKER,
@@ -7277,9 +7277,9 @@ var SVGuitarChord = (
       return y2 + height2;
     };
     SVGuitarChord2.prototype.drawFretMarker = function(x2, y2, size2, color, fretMarketOptions, classNames) {
-      var _a11, _b, _c, _d, _e, _f, _g, _h;
+      var _a12, _b, _c, _d, _e, _f, _g, _h;
       var markerOptions = typeof fretMarketOptions === "number" ? { fret: fretMarketOptions } : fretMarketOptions;
-      var shape = (_a11 = markerOptions.shape) !== null && _a11 !== void 0 ? _a11 : defaultSettings.fretMarkerShape;
+      var shape = (_a12 = markerOptions.shape) !== null && _a12 !== void 0 ? _a12 : defaultSettings.fretMarkerShape;
       var fretMarkerColor = (_c = (_b = markerOptions.color) !== null && _b !== void 0 ? _b : this.settings.fretMarkerColor) !== null && _c !== void 0 ? _c : defaultSettings.fretMarkerColor;
       var fretMarkerStrokeColor = (_e = (_d = markerOptions.strokeColor) !== null && _d !== void 0 ? _d : this.settings.fretMarkerStrokeColor) !== null && _e !== void 0 ? _e : color;
       var fretMarkerStrokeWidth = (_g = (_f = markerOptions.strokeWidth) !== null && _f !== void 0 ? _f : this.settings.fretMarkerStrokeWidth) !== null && _g !== void 0 ? _g : 0;
@@ -7291,8 +7291,8 @@ var SVGuitarChord = (
       this.drawShape(shape, x0, y0, fretMarkerSize, fretMarkerStrokeWidth, fretMarkerStrokeColor, fretMarkerColor !== null && fretMarkerColor !== void 0 ? fretMarkerColor : color, classNamesWithShape);
     };
     SVGuitarChord2.prototype.drawFinger = function(x2, y2, size2, color, textSize, fontFamily, fingerOptions, classNames) {
-      var _a11, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
-      var shape = (_a11 = fingerOptions.shape) !== null && _a11 !== void 0 ? _a11 : defaultSettings.shape;
+      var _a12, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
+      var shape = (_a12 = fingerOptions.shape) !== null && _a12 !== void 0 ? _a12 : defaultSettings.shape;
       var fingerTextColor = (_c = (_b = fingerOptions.textColor) !== null && _b !== void 0 ? _b : this.settings.fingerTextColor) !== null && _c !== void 0 ? _c : defaultSettings.fingerTextColor;
       var fingerStrokeColor = (_g = (_f = (_e = (_d = fingerOptions.strokeColor) !== null && _d !== void 0 ? _d : this.settings.fingerStrokeColor) !== null && _e !== void 0 ? _e : this.settings.fingerColor) !== null && _f !== void 0 ? _f : this.settings.color) !== null && _g !== void 0 ? _g : defaultSettings.color;
       var fingerStrokeWidth = (_j = (_h = fingerOptions.strokeWidth) !== null && _h !== void 0 ? _h : this.settings.fingerStrokeWidth) !== null && _j !== void 0 ? _j : defaultSettings.fingerStrokeWidth;
@@ -7328,8 +7328,8 @@ var SVGuitarChord = (
       }
     };
     SVGuitarChord2.prototype.drawTitle = function(size2) {
-      var _a11, _b, _c, _d, _e;
-      var color = (_a11 = this.settings.color) !== null && _a11 !== void 0 ? _a11 : defaultSettings.color;
+      var _a12, _b, _c, _d, _e;
+      var color = (_a12 = this.settings.color) !== null && _a12 !== void 0 ? _a12 : defaultSettings.color;
       var titleBottomMargin = (_b = this.settings.titleBottomMargin) !== null && _b !== void 0 ? _b : defaultSettings.titleBottomMargin;
       var fontFamily = (_c = this.settings.fontFamily) !== null && _c !== void 0 ? _c : defaultSettings.fontFamily;
       var title = (_e = (_d = this.chordInternal.title) !== null && _d !== void 0 ? _d : this.settings.title) !== null && _e !== void 0 ? _e : this.settings.fixedDiagramPosition ? "X" : "";
@@ -7406,8 +7406,8 @@ var SVGuitarChord = (
     };
     Object.defineProperty(SVGuitarChord2.prototype, "orientation", {
       get: function() {
-        var _a11;
-        return (_a11 = this.settings.orientation) !== null && _a11 !== void 0 ? _a11 : defaultSettings.orientation;
+        var _a12;
+        return (_a12 = this.settings.orientation) !== null && _a12 !== void 0 ? _a12 : defaultSettings.orientation;
       },
       enumerable: false,
       configurable: true
@@ -7975,13 +7975,13 @@ var EditableSVGuitarChord = class {
    * @param {number} fret
    */
   editDot(string, fret) {
-    var _a11, _b;
+    var _a12, _b;
     const finger = this.chordConfig.fingers.find(([s2, f2]) => s2 === string && f2 === fret);
     if (!finger) return;
     this.currentEditFinger = finger;
     this.currentEditString = string;
     this.currentEditFret = fret;
-    const currentColor = typeof finger[2] === "object" && ((_a11 = finger[2]) == null ? void 0 : _a11.color) || DOT_COLORS.BLACK;
+    const currentColor = typeof finger[2] === "object" && ((_a12 = finger[2]) == null ? void 0 : _a12.color) || DOT_COLORS.BLACK;
     const currentText = typeof finger[2] === "object" && ((_b = finger[2]) == null ? void 0 : _b.text) || "";
     const normalizedColor = currentColor === DOT_COLORS.RED ? DOT_COLORS.RED : DOT_COLORS.BLACK;
     this.redRadio.checked = normalizedColor === DOT_COLORS.RED;
@@ -7996,14 +7996,14 @@ var EditableSVGuitarChord = class {
    * @param {Element} openStringElement
    */
   editOpenString(string, openStringElement) {
-    var _a11;
+    var _a12;
     const finger = this.chordConfig.fingers.find(([s2, f2]) => s2 === string && (f2 === 0 || f2 === "x"));
     if (!finger) return;
     this.currentEditFinger = finger;
     this.currentEditString = string;
     this.currentEditElement = openStringElement;
     const currentFret = finger[1];
-    const currentText = typeof finger[2] === "object" && ((_a11 = finger[2]) == null ? void 0 : _a11.text) || "";
+    const currentText = typeof finger[2] === "object" && ((_a12 = finger[2]) == null ? void 0 : _a12.text) || "";
     this.openRadio.checked = currentFret === 0;
     this.mutedRadio.checked = currentFret === "x";
     this.openStringTextInput.value = currentText;
@@ -8287,11 +8287,11 @@ var EditableSVGuitarChord = class {
    * Update open string type (open vs muted) in real-time
    */
   updateOpenStringType() {
-    var _a11;
+    var _a12;
     if (!this.currentEditFinger) return;
     const newFret = this.openRadio.checked ? 0 : "x";
     this.currentEditFinger[1] = newFret;
-    if (newFret === "x" && typeof this.currentEditFinger[2] === "object" && ((_a11 = this.currentEditFinger[2]) == null ? void 0 : _a11.text)) {
+    if (newFret === "x" && typeof this.currentEditFinger[2] === "object" && ((_a12 = this.currentEditFinger[2]) == null ? void 0 : _a12.text)) {
       this.openStringTextInput.value = "";
       const fingerOptions = typeof this.currentEditFinger[2] === "object" ? this.currentEditFinger[2] : {};
       this.currentEditFinger[2] = { ...fingerOptions, text: "" };
@@ -8871,16 +8871,16 @@ var _a4;
 updateJSON();
 var _a5;
 (_a5 = document.getElementById("tab-editor")) == null ? void 0 : _a5.addEventListener("click", () => {
-  var _a11, _b, _c, _d;
-  (_a11 = document.getElementById("tab-editor")) == null ? void 0 : _a11.classList.add("active");
+  var _a12, _b, _c, _d;
+  (_a12 = document.getElementById("tab-editor")) == null ? void 0 : _a12.classList.add("active");
   (_b = document.getElementById("tab-batch")) == null ? void 0 : _b.classList.remove("active");
   (_c = document.getElementById("interactive-editor")) == null ? void 0 : _c.classList.add("active");
   (_d = document.getElementById("batch-converter")) == null ? void 0 : _d.classList.remove("active");
 });
 var _a6;
 (_a6 = document.getElementById("tab-batch")) == null ? void 0 : _a6.addEventListener("click", () => {
-  var _a11, _b, _c, _d;
-  (_a11 = document.getElementById("tab-batch")) == null ? void 0 : _a11.classList.add("active");
+  var _a12, _b, _c, _d;
+  (_a12 = document.getElementById("tab-batch")) == null ? void 0 : _a12.classList.add("active");
   (_b = document.getElementById("tab-editor")) == null ? void 0 : _b.classList.remove("active");
   (_c = document.getElementById("batch-converter")) == null ? void 0 : _c.classList.add("active");
   (_d = document.getElementById("interactive-editor")) == null ? void 0 : _d.classList.remove("active");
@@ -8948,15 +8948,19 @@ function layout(columnNumber) {
   textarea.value = layout2;
 }
 var _a8;
-(_a8 = document.getElementById("layout-2-btn")) == null ? void 0 : _a8.addEventListener("click", () => {
-  layout(2);
+(_a8 = document.getElementById("layout-1-btn")) == null ? void 0 : _a8.addEventListener("click", () => {
+  layout(1);
 });
 var _a9;
-(_a9 = document.getElementById("layout-3-btn")) == null ? void 0 : _a9.addEventListener("click", () => {
-  layout(3);
+(_a9 = document.getElementById("layout-2-btn")) == null ? void 0 : _a9.addEventListener("click", () => {
+  layout(2);
 });
 var _a10;
-(_a10 = document.getElementById("layout-4-btn")) == null ? void 0 : _a10.addEventListener("click", () => {
+(_a10 = document.getElementById("layout-3-btn")) == null ? void 0 : _a10.addEventListener("click", () => {
+  layout(3);
+});
+var _a11;
+(_a11 = document.getElementById("layout-4-btn")) == null ? void 0 : _a11.addEventListener("click", () => {
   layout(4);
 });
 //# sourceMappingURL=bundle.js.map
