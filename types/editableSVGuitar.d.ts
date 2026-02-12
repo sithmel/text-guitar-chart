@@ -53,10 +53,9 @@ export class EditableSVGuitarChord {
     createDialog(): void;
     dialog: HTMLDivElement;
     redRadio: HTMLInputElement;
-    blackRadio: HTMLInputElement;
     greyRadio: HTMLInputElement;
     blueRadio: HTMLInputElement;
-    textSection: HTMLDivElement;
+    blackRadio: HTMLInputElement;
     textInput: HTMLInputElement;
     backdrop: HTMLDivElement;
     /**

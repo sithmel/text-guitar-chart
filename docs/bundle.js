@@ -7504,7 +7504,7 @@ var EditableSVGuitarChord = class {
       padding: 20px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
       z-index: 1000;
-      min-width: 280px;
+      min-width: 220px;
     `;
     const title = document.createElement("h3");
     title.textContent = "Chord Settings";
@@ -7512,28 +7512,32 @@ var EditableSVGuitarChord = class {
     const titleSection = document.createElement("div");
     titleSection.style.cssText = "margin-bottom: 15px;";
     const titleLabel = document.createElement("label");
-    titleLabel.textContent = "Title (optional): ";
-    titleLabel.style.cssText = "display: block; margin-bottom: 5px; font-weight: bold;";
+    titleLabel.textContent = "Title: ";
+    titleLabel.htmlFor = "editable-svguitar-title-input";
+    titleLabel.style.cssText = "display: inline-block; margin-bottom: 5px; font-weight: bold; width: 80px;";
     this.titleInput = document.createElement("input");
+    this.titleInput.id = "editable-svguitar-title-input";
     this.titleInput.type = "text";
     this.titleInput.placeholder = "e.g. A min";
     this.titleInput.maxLength = 10;
     this.titleInput.style.cssText = "width: 10em; padding: 6px; border: 1px solid #ccc; border-radius: 3px; box-sizing: border-box;";
-    titleLabel.appendChild(this.titleInput);
     titleSection.appendChild(titleLabel);
+    titleSection.appendChild(this.titleInput);
     const positionSection = document.createElement("div");
     positionSection.style.cssText = "margin-bottom: 15px;";
     const positionLabel = document.createElement("label");
-    positionLabel.textContent = "Position (optional): ";
-    positionLabel.style.cssText = "display: block; margin-bottom: 5px; font-weight: bold;";
+    positionLabel.textContent = "Position: ";
+    positionLabel.htmlFor = "editable-svguitar-position-input";
+    positionLabel.style.cssText = "display: inline-block; margin-bottom: 5px; font-weight: bold; width: 80px;";
     this.positionInput = document.createElement("input");
+    this.positionInput.id = "editable-svguitar-position-input";
     this.positionInput.type = "number";
     this.positionInput.min = "1";
     this.positionInput.max = "30";
     this.positionInput.placeholder = "1-30";
     this.positionInput.style.cssText = "width: 5em; padding: 6px; border: 1px solid #ccc; border-radius: 3px; box-sizing: border-box;";
-    positionLabel.appendChild(this.positionInput);
     positionSection.appendChild(positionLabel);
+    positionSection.appendChild(this.positionInput);
     const buttonDiv = document.createElement("div");
     buttonDiv.style.cssText = "display: flex; gap: 10px; justify-content: flex-end;";
     const cancelBtn = document.createElement("button");
@@ -7581,86 +7585,82 @@ var EditableSVGuitarChord = class {
       padding: 20px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
       z-index: 1000;
-      min-width: 250px;
+      min-width: 200px;
     `;
     const title = document.createElement("h3");
     title.textContent = "Edit Dot";
     title.style.cssText = "margin: 0 0 15px 0; font-size: 16px;";
     const colorSection = document.createElement("div");
     colorSection.style.cssText = "margin-bottom: 15px;";
-    const colorLabel = document.createElement("div");
-    colorLabel.textContent = "Color:";
-    colorLabel.style.cssText = "font-weight: bold; margin-bottom: 8px;";
-    colorSection.appendChild(colorLabel);
     const colorOptions = document.createElement("div");
-    colorOptions.style.cssText = "display: flex; gap: 15px;";
+    colorOptions.style.cssText = "display: flex; gap: 8px; align-items: center;";
+    const hiddenRadioStyle = "position:absolute;opacity:0;width:0;height:0;";
+    const swatchStyle = (color) => `width:28px;height:28px;display:block;background:${color};border-radius:3px;cursor:pointer;box-sizing:border-box;`;
     const redOption = document.createElement("label");
-    redOption.style.cssText = "display: flex; align-items: center; cursor: pointer;";
+    redOption.style.cssText = "display:inline-block;position:relative;cursor:pointer;";
     this.redRadio = document.createElement("input");
     this.redRadio.type = "radio";
     this.redRadio.name = "dotColor";
     this.redRadio.value = DOT_COLORS.RED;
+    this.redRadio.style.cssText = hiddenRadioStyle;
     this.redRadio.addEventListener("change", () => this.updateDotColor());
-    const redLabel = document.createElement("span");
-    redLabel.textContent = "Red";
-    redLabel.style.cssText = "margin-left: 5px; color: #e74c3c; font-weight: bold;";
+    const redSwatch = document.createElement("span");
+    redSwatch.className = "color-swatch";
+    redSwatch.style.cssText = swatchStyle(DOT_COLORS.RED);
     redOption.appendChild(this.redRadio);
-    redOption.appendChild(redLabel);
+    redOption.appendChild(redSwatch);
+    const greyOption = document.createElement("label");
+    greyOption.style.cssText = "display:inline-block;position:relative;cursor:pointer;";
+    this.greyRadio = document.createElement("input");
+    this.greyRadio.type = "radio";
+    this.greyRadio.name = "dotColor";
+    this.greyRadio.value = DOT_COLORS.GREY;
+    this.greyRadio.style.cssText = hiddenRadioStyle;
+    this.greyRadio.addEventListener("change", () => this.updateDotColor());
+    const greySwatch = document.createElement("span");
+    greySwatch.className = "color-swatch";
+    greySwatch.style.cssText = swatchStyle(DOT_COLORS.GREY);
+    greyOption.appendChild(this.greyRadio);
+    greyOption.appendChild(greySwatch);
+    const blueOption = document.createElement("label");
+    blueOption.style.cssText = "display:inline-block;position:relative;cursor:pointer;";
+    this.blueRadio = document.createElement("input");
+    this.blueRadio.type = "radio";
+    this.blueRadio.name = "dotColor";
+    this.blueRadio.value = DOT_COLORS.BLUE;
+    this.blueRadio.style.cssText = hiddenRadioStyle;
+    this.blueRadio.addEventListener("change", () => this.updateDotColor());
+    const blueSwatch = document.createElement("span");
+    blueSwatch.className = "color-swatch";
+    blueSwatch.style.cssText = swatchStyle(DOT_COLORS.BLUE);
+    blueOption.appendChild(this.blueRadio);
+    blueOption.appendChild(blueSwatch);
     const blackOption = document.createElement("label");
-    blackOption.style.cssText = "display: flex; align-items: center; cursor: pointer;";
+    blackOption.style.cssText = "display:inline-block;position:relative;cursor:pointer;";
     this.blackRadio = document.createElement("input");
     this.blackRadio.type = "radio";
     this.blackRadio.name = "dotColor";
     this.blackRadio.value = DOT_COLORS.BLACK;
     this.blackRadio.checked = true;
+    this.blackRadio.style.cssText = hiddenRadioStyle;
     this.blackRadio.addEventListener("change", () => this.updateDotColor());
-    const blackLabel = document.createElement("span");
-    blackLabel.textContent = "Black";
-    blackLabel.style.cssText = "margin-left: 5px; color: #000000; font-weight: bold;";
+    const blackSwatch = document.createElement("span");
+    blackSwatch.className = "color-swatch";
+    blackSwatch.style.cssText = swatchStyle(DOT_COLORS.BLACK);
     blackOption.appendChild(this.blackRadio);
-    blackOption.appendChild(blackLabel);
+    blackOption.appendChild(blackSwatch);
     colorOptions.appendChild(redOption);
-    colorOptions.appendChild(blackOption);
-    const greyOption = document.createElement("label");
-    greyOption.style.cssText = "display: flex; align-items: center; cursor: pointer;";
-    this.greyRadio = document.createElement("input");
-    this.greyRadio.type = "radio";
-    this.greyRadio.name = "dotColor";
-    this.greyRadio.value = DOT_COLORS.GREY;
-    this.greyRadio.addEventListener("change", () => this.updateDotColor());
-    const greyLabel = document.createElement("span");
-    greyLabel.textContent = "Grey";
-    greyLabel.style.cssText = "margin-left: 5px; color: #9B9B9B; font-weight: bold;";
-    greyOption.appendChild(this.greyRadio);
-    greyOption.appendChild(greyLabel);
-    const blueOption = document.createElement("label");
-    blueOption.style.cssText = "display: flex; align-items: center; cursor: pointer;";
-    this.blueRadio = document.createElement("input");
-    this.blueRadio.type = "radio";
-    this.blueRadio.name = "dotColor";
-    this.blueRadio.value = DOT_COLORS.BLUE;
-    this.blueRadio.addEventListener("change", () => this.updateDotColor());
-    const blueLabel = document.createElement("span");
-    blueLabel.textContent = "Blue";
-    blueLabel.style.cssText = "margin-left: 5px; color: #4A90E2; font-weight: bold;";
-    blueOption.appendChild(this.blueRadio);
-    blueOption.appendChild(blueLabel);
     colorOptions.appendChild(greyOption);
     colorOptions.appendChild(blueOption);
-    colorSection.appendChild(colorOptions);
-    this.textSection = document.createElement("div");
-    this.textSection.style.cssText = "margin-bottom: 15px;";
-    const textLabel = document.createElement("label");
-    textLabel.textContent = "Text (optional): ";
-    textLabel.style.cssText = "display: block; margin-bottom: 5px; font-weight: bold;";
+    colorOptions.appendChild(blackOption);
     this.textInput = document.createElement("input");
     this.textInput.type = "text";
-    this.textInput.maxLength = 2;
-    this.textInput.placeholder = "1-2 chars";
-    this.textInput.style.cssText = "width: 60px; padding: 4px; border: 1px solid #ccc; border-radius: 3px;";
+    this.textInput.maxLength = 1;
+    this.textInput.placeholder = "Aa";
+    this.textInput.style.cssText = "width:32px;height:28px;padding:0 4px;margin-left:4px;border:1px solid #ccc;border-radius:3px;box-sizing:border-box;";
     this.textInput.addEventListener("input", () => this.updateDotText());
-    textLabel.appendChild(this.textInput);
-    this.textSection.appendChild(textLabel);
+    colorOptions.appendChild(this.textInput);
+    colorSection.appendChild(colorOptions);
     const buttonDiv = document.createElement("div");
     buttonDiv.style.cssText = "display: flex; gap: 10px; justify-content: flex-end;";
     const removeBtn = document.createElement("button");
@@ -7675,7 +7675,6 @@ var EditableSVGuitarChord = class {
     buttonDiv.appendChild(doneBtn);
     this.dialog.appendChild(title);
     this.dialog.appendChild(colorSection);
-    this.dialog.appendChild(this.textSection);
     this.dialog.appendChild(buttonDiv);
     document.body.appendChild(this.dialog);
     this.backdrop = document.createElement("div");
@@ -7709,60 +7708,59 @@ var EditableSVGuitarChord = class {
       padding: 20px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
       z-index: 1000;
-      min-width: 250px;
+      min-width: 165px;
     `;
     const title = document.createElement("h3");
     title.textContent = "Edit Open String";
     title.style.cssText = "margin: 0 0 15px 0; font-size: 16px;";
     const typeSection = document.createElement("div");
     typeSection.style.cssText = "margin-bottom: 15px;";
-    const typeLabel = document.createElement("div");
-    typeLabel.textContent = "Type:";
-    typeLabel.style.cssText = "font-weight: bold; margin-bottom: 8px;";
-    typeSection.appendChild(typeLabel);
     const typeOptions = document.createElement("div");
-    typeOptions.style.cssText = "display: flex; gap: 15px;";
+    typeOptions.style.cssText = "display: flex; gap: 8px; align-items: center;";
+    const hiddenRadioStyle = "position:absolute;opacity:0;width:0;height:0;";
+    const openStringSwatchStyle = "width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #ccc;border-radius:3px;cursor:pointer;box-sizing:border-box;font-size:16px;font-weight:bold;user-select:none;";
+    const mutedOption = document.createElement("label");
+    mutedOption.style.cssText = "display:inline-block;position:relative;cursor:pointer;";
+    this.mutedRadio = document.createElement("input");
+    this.mutedRadio.type = "radio";
+    this.mutedRadio.name = "openStringType";
+    this.mutedRadio.value = "x";
+    this.mutedRadio.style.cssText = hiddenRadioStyle;
+    this.mutedRadio.addEventListener("change", () => this.updateOpenStringType());
+    const mutedSwatch = document.createElement("span");
+    mutedSwatch.className = "open-string-swatch";
+    mutedSwatch.textContent = "\xD7";
+    mutedSwatch.style.cssText = openStringSwatchStyle;
+    mutedOption.appendChild(this.mutedRadio);
+    mutedOption.appendChild(mutedSwatch);
     const openOption = document.createElement("label");
-    openOption.style.cssText = "display: flex; align-items: center; cursor: pointer;";
+    openOption.style.cssText = "display:inline-block;position:relative;cursor:pointer;";
     this.openRadio = document.createElement("input");
     this.openRadio.type = "radio";
     this.openRadio.name = "openStringType";
     this.openRadio.value = "0";
     this.openRadio.checked = true;
+    this.openRadio.style.cssText = hiddenRadioStyle;
     this.openRadio.addEventListener("change", () => this.updateOpenStringType());
-    const openLabel = document.createElement("span");
-    openLabel.textContent = "Open";
-    openLabel.style.cssText = "margin-left: 5px; font-weight: bold;";
+    const openSwatch = document.createElement("span");
+    openSwatch.className = "open-string-swatch";
+    openSwatch.textContent = "\u25CB";
+    openSwatch.style.cssText = openStringSwatchStyle;
     openOption.appendChild(this.openRadio);
-    openOption.appendChild(openLabel);
-    const mutedOption = document.createElement("label");
-    mutedOption.style.cssText = "display: flex; align-items: center; cursor: pointer;";
-    this.mutedRadio = document.createElement("input");
-    this.mutedRadio.type = "radio";
-    this.mutedRadio.name = "openStringType";
-    this.mutedRadio.value = "x";
-    this.mutedRadio.addEventListener("change", () => this.updateOpenStringType());
-    const mutedLabel = document.createElement("span");
-    mutedLabel.textContent = "Muted";
-    mutedLabel.style.cssText = "margin-left: 5px; font-weight: bold;";
-    mutedOption.appendChild(this.mutedRadio);
-    mutedOption.appendChild(mutedLabel);
-    typeOptions.appendChild(openOption);
+    openOption.appendChild(openSwatch);
     typeOptions.appendChild(mutedOption);
-    typeSection.appendChild(typeOptions);
-    this.openStringTextSection = document.createElement("div");
-    this.openStringTextSection.style.cssText = "margin-bottom: 15px;";
-    const textLabel = document.createElement("label");
-    textLabel.textContent = "Text (optional): ";
-    textLabel.style.cssText = "display: block; margin-bottom: 5px; font-weight: bold;";
+    typeOptions.appendChild(openOption);
     this.openStringTextInput = document.createElement("input");
     this.openStringTextInput.type = "text";
-    this.openStringTextInput.maxLength = 2;
-    this.openStringTextInput.placeholder = "1-2 chars";
-    this.openStringTextInput.style.cssText = "width: 60px; padding: 4px; border: 1px solid #ccc; border-radius: 3px;";
-    this.openStringTextInput.addEventListener("input", () => this.updateOpenStringText());
-    textLabel.appendChild(this.openStringTextInput);
-    this.openStringTextSection.appendChild(textLabel);
+    this.openStringTextInput.maxLength = 1;
+    this.openStringTextInput.placeholder = "Aa";
+    this.openStringTextInput.style.cssText = "width:32px;height:28px;padding:0 4px;margin-left:4px;border:1px solid #ccc;border-radius:3px;box-sizing:border-box;";
+    this.openStringTextInput.addEventListener(
+      "input",
+      () => this.updateOpenStringText()
+    );
+    typeOptions.appendChild(this.openStringTextInput);
+    typeSection.appendChild(typeOptions);
     const buttonDiv = document.createElement("div");
     buttonDiv.style.cssText = "display: flex; gap: 10px; justify-content: flex-end;";
     const removeBtn = document.createElement("button");
@@ -7777,7 +7775,6 @@ var EditableSVGuitarChord = class {
     buttonDiv.appendChild(doneBtn);
     this.openStringDialog.appendChild(title);
     this.openStringDialog.appendChild(typeSection);
-    this.openStringDialog.appendChild(this.openStringTextSection);
     this.openStringDialog.appendChild(buttonDiv);
     document.body.appendChild(this.openStringDialog);
     this.openStringBackdrop = document.createElement("div");
@@ -8251,6 +8248,14 @@ var EditableSVGuitarChord = class {
       .editable-svguitar-settings-btn:hover {
         background: #f0f0f0;
       }
+
+      .editable-svguitar-dialog input[name="dotColor"]:checked + .color-swatch {
+        box-shadow: 0 0 0 2px white, 0 0 0 4px grey;
+      }
+
+      .editable-svguitar-open-string-dialog input[name="openStringType"]:checked + .open-string-swatch {
+        box-shadow: 0 0 0 2px white, 0 0 0 4px grey;
+      }
       `;
     document.head.appendChild(style);
   }
@@ -8282,23 +8287,19 @@ var EditableSVGuitarChord = class {
    * Update text section visibility based on color selection
    */
   updateTextSectionVisibility() {
-    if (!this.textSection) return;
+    if (!this.textInput) return;
     const isBlack = this.blackRadio && this.blackRadio.checked;
-    this.textSection.style.display = isBlack ? "block" : "none";
-    if (this.textInput) {
-      this.textInput.disabled = !isBlack;
-    }
+    this.textInput.style.display = isBlack ? "inline-block" : "none";
+    this.textInput.disabled = !isBlack;
   }
   /**
    * Update text section visibility for open string dialog based on type selection
    */
   updateOpenStringTextSectionVisibility() {
-    if (!this.openStringTextSection) return;
+    if (!this.openStringTextInput) return;
     const isOpen = this.openRadio && this.openRadio.checked;
-    this.openStringTextSection.style.display = isOpen ? "block" : "none";
-    if (this.openStringTextInput) {
-      this.openStringTextInput.disabled = !isOpen;
-    }
+    this.openStringTextInput.style.display = isOpen ? "inline-block" : "none";
+    this.openStringTextInput.disabled = !isOpen;
   }
   /**
    * Update dot text in real-time

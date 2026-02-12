@@ -529,8 +529,7 @@ describe('EditableSVGuitarChord (Open String Dialog)', () => {
     // Mock radio buttons
     editableChord.openRadio = { checked: false };
     editableChord.mutedRadio = { checked: true };
-    editableChord.openStringTextInput = { value: '' };
-    editableChord.openStringTextSection = { style: { display: 'block' } };
+    editableChord.openStringTextInput = { value: '', style: { display: '' }, disabled: false };
     
     // Switch to muted
     editableChord.updateOpenStringType();
@@ -584,8 +583,7 @@ describe('EditableSVGuitarChord (Open String Dialog)', () => {
     editableChord.currentEditFinger = editableChord.chordConfig.fingers[0];
     editableChord.openRadio = { checked: false };
     editableChord.mutedRadio = { checked: true };
-    editableChord.openStringTextInput = { value: 'R' };
-    editableChord.openStringTextSection = { style: { display: 'block' } };
+    editableChord.openStringTextInput = { value: 'R', style: { display: '' }, disabled: false };
     
     editableChord.updateOpenStringType();
     
@@ -646,8 +644,7 @@ describe('EditableSVGuitarChord (Open String Dialog)', () => {
     editableChord.currentEditFinger = editableChord.chordConfig.fingers[0];
     editableChord.openRadio = { checked: false };
     editableChord.mutedRadio = { checked: true };
-    editableChord.openStringTextInput = { value: '' };
-    editableChord.openStringTextSection = { style: { display: 'block' } };
+    editableChord.openStringTextInput = { value: '', style: { display: '' }, disabled: false };
     
     editableChord.updateOpenStringType();
     
