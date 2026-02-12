@@ -1,6 +1,8 @@
 export namespace DOT_COLORS {
     let RED: string;
     let BLACK: string;
+    let GREY: string;
+    let BLUE: string;
 }
 /**
  * EditableSVGuitarChord - Wrapper around SVGuitarChord that adds interactive editing capabilities
@@ -52,6 +54,8 @@ export class EditableSVGuitarChord {
     dialog: HTMLDivElement;
     redRadio: HTMLInputElement;
     blackRadio: HTMLInputElement;
+    greyRadio: HTMLInputElement;
+    blueRadio: HTMLInputElement;
     textSection: HTMLDivElement;
     textInput: HTMLInputElement;
     backdrop: HTMLDivElement;
@@ -142,6 +146,24 @@ export class EditableSVGuitarChord {
      * Open the open string edit dialog
      */
     openOpenStringDialog(): void;
+    /**
+     * Calculate absolute position for a dialog relative to a reference element
+     * @param {HTMLElement} dialog - The dialog element to position
+     * @param {Element} referenceElement - The element to position relative to
+     * @param {object} options - Positioning options
+     * @param {'beside'|'below'} [options.placement] - Whether to place beside or below the reference
+     * @param {number} [options.offset] - Distance from reference element
+     * @returns {{x: number, y: number, arrowSide: string, elementCenterY: number}}
+     */
+    calculateDialogPosition(dialog: HTMLElement, referenceElement: Element, options?: {
+        placement?: "beside" | "below";
+        offset?: number;
+    }): {
+        x: number;
+        y: number;
+        arrowSide: string;
+        elementCenterY: number;
+    };
     /**
      * Position dialog relative to the clicked element
      */

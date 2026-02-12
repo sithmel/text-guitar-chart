@@ -14,11 +14,13 @@ Strings are numbered 1-6 from right to left in the diagram. In standard guitar t
 - String 1 (rightmost) is the highest pitch (E4)
 
 ### Color values
-The format supports two colors for fingering markers:
+The format supports four colors for fingering markers:
 - `#000000` (black) for regular fingering positions
 - `#e74c3c` (red/root marker color) for special positions (typically root notes)
+- `#9B9B9B` (grey) for grey marker positions
+- `#4A90E2` (blue) for blue marker positions
 
-Any color value other than `#000000` is treated as a root marker and rendered with the special marker symbol.
+Any color value not matching one of the four known colors is treated as a root marker (red) and rendered with the root marker symbol.
 
 ## ascii format
 
@@ -47,7 +49,9 @@ The first line can optionally have an indication of the starting fret on the lef
 These different characters are used:
 - "|" indicates that there is no fingering in this position
 - "o" indicates that this position is fingered with a regular dot (color #000000)
-- "*" indicates that this position is fingered with a root marker (non-black color, typically #e74c3c)
+- "*" indicates that this position is fingered with a root marker (color #e74c3c or any unrecognized color)
+- "O" (uppercase) indicates that this position is fingered with a grey marker (color #9B9B9B)
+- "+" indicates that this position is fingered with a blue marker (color #4A90E2)
 - any other character is displayed as text on the fretboard at that position (commonly used for finger numbers or note names)
 
 Examples:
@@ -139,7 +143,9 @@ The second line can optionally have an indication of the starting fret on the le
 The even rows contain characters representing the fingering:
 - "│" indicates that there is no fingering in this position
 - "○" indicates that this position is fingered with a regular dot (color #000000)
-- "●" indicates that this position is fingered with a root marker (non-black color, typically #e74c3c)
+- "●" indicates that this position is fingered with a root marker (color #e74c3c or any unrecognized color)
+- "□" indicates that this position is fingered with a grey marker (color #9B9B9B)
+- "■" indicates that this position is fingered with a blue marker (color #4A90E2)
 - any other character is displayed as text on the fretboard at that position (commonly used for finger numbers or note names)
 
 Example:

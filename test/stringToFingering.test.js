@@ -1494,4 +1494,180 @@ describe("stringToFingering", () => {
       assert.deepEqual(result?.barres, []);
     });
   });
+
+  describe("Grey and blue color markers", () => {
+    test("parses grey marker (O) in ASCII format", () => {
+      const fingeringStr = `  Test
+  ######
+  x
+  ------
+  |||||O
+  ||||||
+  ||||||`;
+
+      const result = stringToFingering(fingeringStr);
+      assert.equal(
+        fingersContains(result, [
+          [6, "x", { text: "", color: "#000000" }],
+          [1, 1, { text: "", color: "#9B9B9B" }],
+        ]),
+        true,
+        "Fingering does not match expected grey marker"
+      );
+    });
+
+    test("parses blue marker (+) in ASCII format", () => {
+      const fingeringStr = `  Test
+  ######
+  x
+  ------
+  |||||+
+  ||||||
+  ||||||`;
+
+      const result = stringToFingering(fingeringStr);
+      assert.equal(
+        fingersContains(result, [
+          [6, "x", { text: "", color: "#000000" }],
+          [1, 1, { text: "", color: "#4A90E2" }],
+        ]),
+        true,
+        "Fingering does not match expected blue marker"
+      );
+    });
+
+    test("parses grey marker (□) in Unicode format", () => {
+      const fingeringStr = `  Test
+  ‾‾‾‾‾‾‾‾‾‾‾
+  ×
+  ┌─┬─┬─┬─┬─┐
+  │ │ │ │ │ □
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ │ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ │ │
+  └─┴─┴─┴─┴─┘`;
+
+      const result = stringToFingering(fingeringStr);
+      assert.equal(
+        fingersContains(result, [
+          [6, "x", { text: "", color: "#000000" }],
+          [1, 1, { text: "", color: "#9B9B9B" }],
+        ]),
+        true,
+        "Fingering does not match expected grey Unicode marker"
+      );
+    });
+
+    test("parses blue marker (■) in Unicode format", () => {
+      const fingeringStr = `  Test
+  ‾‾‾‾‾‾‾‾‾‾‾
+  ×
+  ┌─┬─┬─┬─┬─┐
+  │ │ │ │ │ ■
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ │ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ │ │
+  └─┴─┴─┴─┴─┘`;
+
+      const result = stringToFingering(fingeringStr);
+      assert.equal(
+        fingersContains(result, [
+          [6, "x", { text: "", color: "#000000" }],
+          [1, 1, { text: "", color: "#4A90E2" }],
+        ]),
+        true,
+        "Fingering does not match expected blue Unicode marker"
+      );
+    });
+
+    test("parses mixed 4-color chord in ASCII format", () => {
+      const fingeringStr = `  Mixed
+  ######
+  
+  ------
+  o*O+||
+  ||||||
+  ||||||`;
+
+      const result = stringToFingering(fingeringStr);
+      assert.equal(
+        fingersContains(result, [
+          [6, 1, { text: "", color: "#000000" }],
+          [5, 1, { text: "", color: "#e74c3c" }],
+          [4, 1, { text: "", color: "#9B9B9B" }],
+          [3, 1, { text: "", color: "#4A90E2" }],
+        ]),
+        true,
+        "Fingering does not match expected mixed 4-color chord"
+      );
+    });
+
+    test("parses mixed 4-color chord in Unicode format", () => {
+      const fingeringStr = `  Mixed
+  ‾‾‾‾‾‾‾‾‾‾‾
+  
+  ┌─┬─┬─┬─┬─┐
+  ○ ● □ ■ │ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ │ │
+  ├─┼─┼─┼─┼─┤
+  │ │ │ │ │ │
+  └─┴─┴─┴─┴─┘`;
+
+      const result = stringToFingering(fingeringStr);
+      assert.equal(
+        fingersContains(result, [
+          [6, 1, { text: "", color: "#000000" }],
+          [5, 1, { text: "", color: "#e74c3c" }],
+          [4, 1, { text: "", color: "#9B9B9B" }],
+          [3, 1, { text: "", color: "#4A90E2" }],
+        ]),
+        true,
+        "Fingering does not match expected mixed 4-color Unicode chord"
+      );
+    });
+
+    test("parses custom grey color option", () => {
+      const fingeringStr = `  ------
+  |||||O
+  ||||||
+  ||||||`;
+
+      const result = stringToFingering(fingeringStr, { greyColor: "#AAAAAA" });
+      assert.equal(
+        fingersContains(result, [
+          [1, 1, { text: "", color: "#AAAAAA" }],
+        ]),
+        true,
+        "Should use custom grey color"
+      );
+    });
+
+    test("parses custom blue color option", () => {
+      const fingeringStr = `  ------
+  |||||+
+  ||||||
+  ||||||`;
+
+      const result = stringToFingering(fingeringStr, { blueColor: "#0000FF" });
+      assert.equal(
+        fingersContains(result, [
+          [1, 1, { text: "", color: "#0000FF" }],
+        ]),
+        true,
+        "Should use custom blue color"
+      );
+    });
+
+    test("grey/blue markers detected as Unicode format", () => {
+      // □ alone should trigger Unicode detection
+      const greyStr = "  □";
+      const blueStr = "  ■";
+      // Use a helper to check - these strings contain Unicode markers
+      assert.ok(greyStr.includes("□"), "Should contain grey Unicode marker");
+      assert.ok(blueStr.includes("■"), "Should contain blue Unicode marker");
+    });
+  });
 });

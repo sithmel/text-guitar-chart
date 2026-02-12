@@ -210,6 +210,18 @@ describe('DOT_COLORS', () => {
     assert.equal(DOT_COLORS.RED, '#e74c3c', 'RED should be correct hex value');
     assert.equal(DOT_COLORS.BLACK, '#000000', 'BLACK should be correct hex value');
   });
+
+  test('DOT_COLORS has expected grey and blue values', () => {
+    assert.equal(DOT_COLORS.GREY, '#9B9B9B', 'GREY should be correct hex value');
+    assert.equal(DOT_COLORS.BLUE, '#4A90E2', 'BLUE should be correct hex value');
+  });
+
+  test('DOT_COLORS has all 4 color properties', () => {
+    assert.ok(DOT_COLORS.RED, 'DOT_COLORS should have RED property');
+    assert.ok(DOT_COLORS.BLACK, 'DOT_COLORS should have BLACK property');
+    assert.ok(DOT_COLORS.GREY, 'DOT_COLORS should have GREY property');
+    assert.ok(DOT_COLORS.BLUE, 'DOT_COLORS should have BLUE property');
+  });
 });
 describe('EditableSVGuitarChord (Title and Position)', () => {
   test('sets title and position via chord() method', () => {

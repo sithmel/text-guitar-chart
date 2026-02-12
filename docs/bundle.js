@@ -1,4 +1,15 @@
 // lib/fingeringToString.js
+var COLOR_GREY = "#9B9B9B";
+var COLOR_BLUE = "#4A90E2";
+function getMarkerChar(color, isUnicode) {
+  if (color === COLOR_GREY) {
+    return isUnicode ? "\u25A1" : "O";
+  }
+  if (color === COLOR_BLUE) {
+    return isUnicode ? "\u25A0" : "+";
+  }
+  return isUnicode ? "\u25CF" : "*";
+}
 function fingeringToString(chord, options = {}) {
   const { useUnicode = false } = options;
   const { fingers = [], title = "", position: position2 } = chord;
@@ -84,7 +95,7 @@ function buildAsciiOutput(title, stringData, openStrings, mutedStrings, numFrets
       const fingerInfo = (_a12 = stringData.get(str)) == null ? void 0 : _a12.get(fret);
       if (fingerInfo) {
         if (fingerInfo.color !== "#000000") {
-          line += "*";
+          line += getMarkerChar(fingerInfo.color, false);
         } else if (fingerInfo.text) {
           line += fingerInfo.text[0];
         } else {
@@ -141,7 +152,7 @@ function buildUnicodeOutput(title, stringData, openStrings, mutedStrings, numFre
       const fingerInfo = (_a12 = stringData.get(str)) == null ? void 0 : _a12.get(fret);
       if (fingerInfo) {
         if (fingerInfo.color !== "#000000") {
-          line += "\u25CF";
+          line += getMarkerChar(fingerInfo.color, true);
         } else if (fingerInfo.text) {
           line += fingerInfo.text[0];
         } else {
@@ -7420,7 +7431,9 @@ var SVGuitarChord = (
 // lib/editableSVGuitar.js
 var DOT_COLORS = {
   RED: "#e74c3c",
-  BLACK: "#000000"
+  BLACK: "#000000",
+  GREY: "#9B9B9B",
+  BLUE: "#4A90E2"
 };
 var EditableSVGuitarChord = class {
   /**
@@ -7608,6 +7621,32 @@ var EditableSVGuitarChord = class {
     blackOption.appendChild(blackLabel);
     colorOptions.appendChild(redOption);
     colorOptions.appendChild(blackOption);
+    const greyOption = document.createElement("label");
+    greyOption.style.cssText = "display: flex; align-items: center; cursor: pointer;";
+    this.greyRadio = document.createElement("input");
+    this.greyRadio.type = "radio";
+    this.greyRadio.name = "dotColor";
+    this.greyRadio.value = DOT_COLORS.GREY;
+    this.greyRadio.addEventListener("change", () => this.updateDotColor());
+    const greyLabel = document.createElement("span");
+    greyLabel.textContent = "Grey";
+    greyLabel.style.cssText = "margin-left: 5px; color: #9B9B9B; font-weight: bold;";
+    greyOption.appendChild(this.greyRadio);
+    greyOption.appendChild(greyLabel);
+    const blueOption = document.createElement("label");
+    blueOption.style.cssText = "display: flex; align-items: center; cursor: pointer;";
+    this.blueRadio = document.createElement("input");
+    this.blueRadio.type = "radio";
+    this.blueRadio.name = "dotColor";
+    this.blueRadio.value = DOT_COLORS.BLUE;
+    this.blueRadio.addEventListener("change", () => this.updateDotColor());
+    const blueLabel = document.createElement("span");
+    blueLabel.textContent = "Blue";
+    blueLabel.style.cssText = "margin-left: 5px; color: #4A90E2; font-weight: bold;";
+    blueOption.appendChild(this.blueRadio);
+    blueOption.appendChild(blueLabel);
+    colorOptions.appendChild(greyOption);
+    colorOptions.appendChild(blueOption);
     colorSection.appendChild(colorOptions);
     this.textSection = document.createElement("div");
     this.textSection.style.cssText = "margin-bottom: 15px;";
@@ -7983,9 +8022,14 @@ var EditableSVGuitarChord = class {
     this.currentEditFret = fret;
     const currentColor = typeof finger[2] === "object" && ((_a12 = finger[2]) == null ? void 0 : _a12.color) || DOT_COLORS.BLACK;
     const currentText = typeof finger[2] === "object" && ((_b = finger[2]) == null ? void 0 : _b.text) || "";
-    const normalizedColor = currentColor === DOT_COLORS.RED ? DOT_COLORS.RED : DOT_COLORS.BLACK;
+    let normalizedColor = DOT_COLORS.BLACK;
+    if (currentColor === DOT_COLORS.RED) normalizedColor = DOT_COLORS.RED;
+    else if (currentColor === DOT_COLORS.GREY) normalizedColor = DOT_COLORS.GREY;
+    else if (currentColor === DOT_COLORS.BLUE) normalizedColor = DOT_COLORS.BLUE;
     this.redRadio.checked = normalizedColor === DOT_COLORS.RED;
     this.blackRadio.checked = normalizedColor === DOT_COLORS.BLACK;
+    this.greyRadio.checked = normalizedColor === DOT_COLORS.GREY;
+    this.blueRadio.checked = normalizedColor === DOT_COLORS.BLUE;
     this.textInput.value = currentText;
     this.updateTextSectionVisibility();
     this.openDialog();
@@ -8308,10 +8352,13 @@ var EditableSVGuitarChord = class {
     if (!this.currentEditFinger[2]) {
       this.currentEditFinger[2] = {};
     }
-    const selectedColor = this.redRadio.checked ? DOT_COLORS.RED : DOT_COLORS.BLACK;
+    let selectedColor = DOT_COLORS.BLACK;
+    if (this.redRadio.checked) selectedColor = DOT_COLORS.RED;
+    else if (this.greyRadio.checked) selectedColor = DOT_COLORS.GREY;
+    else if (this.blueRadio.checked) selectedColor = DOT_COLORS.BLUE;
     const fingerOptions = typeof this.currentEditFinger[2] === "object" ? this.currentEditFinger[2] : {};
     this.currentEditFinger[2] = { ...fingerOptions, color: selectedColor };
-    if (selectedColor === DOT_COLORS.RED) {
+    if (selectedColor !== DOT_COLORS.BLACK) {
       this.currentEditFinger[2].text = "";
       this.textInput.value = "";
     }
@@ -8327,7 +8374,10 @@ var EditableSVGuitarChord = class {
     if (!this.currentEditFinger[2]) {
       this.currentEditFinger[2] = {};
     }
-    const selectedColor = this.redRadio.checked ? DOT_COLORS.RED : DOT_COLORS.BLACK;
+    let selectedColor = DOT_COLORS.BLACK;
+    if (this.redRadio.checked) selectedColor = DOT_COLORS.RED;
+    else if (this.greyRadio.checked) selectedColor = DOT_COLORS.GREY;
+    else if (this.blueRadio.checked) selectedColor = DOT_COLORS.BLUE;
     this.currentEditFinger[2] = { text: this.textInput.value, color: selectedColor };
     this.closeDialog();
     this.redraw();
@@ -8543,13 +8593,17 @@ var ASCII_EQUALS = "=";
 var ASCII_OPEN = "o";
 var ASCII_MUTED = "x";
 var ASCII_ROOT = "*";
+var ASCII_GREY = "O";
+var ASCII_BLUE = "+";
 var UNICODE_VERTICAL = "\u2502";
 var UNICODE_OPEN = "\u25CB";
 var UNICODE_MUTED = "\xD7";
 var UNICODE_ROOT = "\u25CF";
+var UNICODE_GREY = "\u25A1";
+var UNICODE_BLUE = "\u25A0";
 var UNICODE_BOX_CHARS = "\u2552\u2550\u2564\u2555\u251C\u2500\u253C\u2524\u2514\u2534\u2518\u250C\u252C\u2510";
 function isUnicodeFormat(str) {
-  return str.includes(UNICODE_VERTICAL) || str.includes(UNICODE_OPEN) || str.includes(UNICODE_ROOT) || str.includes(UNICODE_MUTED) || [...UNICODE_BOX_CHARS].some((c2) => str.includes(c2));
+  return str.includes(UNICODE_VERTICAL) || str.includes(UNICODE_OPEN) || str.includes(UNICODE_ROOT) || str.includes(UNICODE_MUTED) || str.includes(UNICODE_GREY) || str.includes(UNICODE_BLUE) || [...UNICODE_BOX_CHARS].some((c2) => str.includes(c2));
 }
 function findUnicodeGridBoundaries(lines, firstGridRowIdx) {
   const firstLine = lines[firstGridRowIdx];
@@ -8626,7 +8680,12 @@ function isGridRow(line, isUnicode) {
   }
 }
 function stringToFingering(fingeringStr, options = {}) {
-  const { redColor = "#e74c3c", blackColor = "#000000" } = options;
+  const {
+    redColor = "#e74c3c",
+    blackColor = "#000000",
+    greyColor = "#9B9B9B",
+    blueColor = "#4A90E2"
+  } = options;
   if (!fingeringStr || fingeringStr.trim() === "") {
     return null;
   }
@@ -8635,6 +8694,8 @@ function stringToFingering(fingeringStr, options = {}) {
   const openChar = isUnicode ? UNICODE_OPEN : ASCII_OPEN;
   const mutedChar = isUnicode ? UNICODE_MUTED : ASCII_MUTED;
   const rootChar = isUnicode ? UNICODE_ROOT : ASCII_ROOT;
+  const greyChar = isUnicode ? UNICODE_GREY : ASCII_GREY;
+  const blueChar = isUnicode ? UNICODE_BLUE : ASCII_BLUE;
   const fingers = [];
   let title;
   let position2;
@@ -8746,6 +8807,10 @@ function stringToFingering(fingeringStr, options = {}) {
       }
       if (char === rootChar) {
         fingers.push([stringNum, fretNumber, { text: "", color: redColor }]);
+      } else if (char === greyChar) {
+        fingers.push([stringNum, fretNumber, { text: "", color: greyColor }]);
+      } else if (char === blueChar) {
+        fingers.push([stringNum, fretNumber, { text: "", color: blueColor }]);
       } else if (char === UNICODE_OPEN || char === ASCII_OPEN) {
         fingers.push([stringNum, fretNumber, { text: "", color: blackColor }]);
       } else if (/\S/.test(char)) {
