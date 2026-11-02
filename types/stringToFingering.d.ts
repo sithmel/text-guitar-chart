@@ -1,12 +1,12 @@
 /**
  * Parse a string representation of a guitar fingering into internal format
  * @param {string} fingeringStr - The string representation of the fingering
- * @param {{ redColor?: string, blackColor?: string, greyColor?: string, blueColor?: string }} [options]
+ * @param {{ primaryColor?: string, defaultColor?: string, tertiaryColor?: string, secondaryColor?: string }} [options]
  * @returns {import("svguitar").Chord | null} The parsed fingering object
  */
 export default function stringToFingering(fingeringStr: string, options?: {
-    redColor?: string;
-    blackColor?: string;
-    greyColor?: string;
-    blueColor?: string;
+    primaryColor?: string;
+    defaultColor?: string;
+    tertiaryColor?: string;
+    secondaryColor?: string;
 }): import("svguitar").Chord | null;

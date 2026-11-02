@@ -2,7 +2,7 @@
 
 import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { EditableSVGuitarChord, DOT_COLORS } from '../lib/editableSVGuitar.js';
+import { EditableSVGuitarChord } from '../lib/editableSVGuitar.js';
 
 // Mock SVGuitarChord class for testing
 class MockSVGuitarChord {
@@ -192,37 +192,6 @@ describe('EditableSVGuitarChord (Core Functionality)', () => {
   });
 });
 
-describe('DOT_COLORS', () => {
-  test('exports DOT_COLORS object with red and black', () => {
-    assert.ok(typeof DOT_COLORS === 'object', 'DOT_COLORS should be an object');
-    assert.ok(DOT_COLORS.RED, 'DOT_COLORS should have RED property');
-    assert.ok(DOT_COLORS.BLACK, 'DOT_COLORS should have BLACK property');
-  });
-
-  test('DOT_COLORS contains valid hex colors', () => {
-    Object.values(DOT_COLORS).forEach(color => {
-      assert.ok(typeof color === 'string', 'Color should be a string');
-      assert.ok(/^#[0-9a-fA-F]{6}$/.test(color), `Color ${color} should be valid hex format`);
-    });
-  });
-
-  test('DOT_COLORS has expected red and black values', () => {
-    assert.equal(DOT_COLORS.RED, '#e74c3c', 'RED should be correct hex value');
-    assert.equal(DOT_COLORS.BLACK, '#000000', 'BLACK should be correct hex value');
-  });
-
-  test('DOT_COLORS has expected grey and blue values', () => {
-    assert.equal(DOT_COLORS.GREY, '#9B9B9B', 'GREY should be correct hex value');
-    assert.equal(DOT_COLORS.BLUE, '#4A90E2', 'BLUE should be correct hex value');
-  });
-
-  test('DOT_COLORS has all 4 color properties', () => {
-    assert.ok(DOT_COLORS.RED, 'DOT_COLORS should have RED property');
-    assert.ok(DOT_COLORS.BLACK, 'DOT_COLORS should have BLACK property');
-    assert.ok(DOT_COLORS.GREY, 'DOT_COLORS should have GREY property');
-    assert.ok(DOT_COLORS.BLUE, 'DOT_COLORS should have BLUE property');
-  });
-});
 describe('EditableSVGuitarChord (Title and Position)', () => {
   test('sets title and position via chord() method', () => {
     const mockContainer = { appendChild: () => {} };

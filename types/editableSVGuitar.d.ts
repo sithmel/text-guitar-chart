@@ -1,9 +1,3 @@
-export namespace DOT_COLORS {
-    let RED: string;
-    let BLACK: string;
-    let GREY: string;
-    let BLUE: string;
-}
 /**
  * EditableSVGuitarChord - Wrapper around SVGuitarChord that adds interactive editing capabilities
  *
@@ -18,10 +12,12 @@ export class EditableSVGuitarChord {
     /**
      * @param {HTMLElement} container
      * @param {any} SVGuitarChordClass
+     * @param {import("./options.js").ColorsType} colors
      */
-    constructor(container: HTMLElement, SVGuitarChordClass?: any);
+    constructor(container: HTMLElement, SVGuitarChordClass?: any, colors?: import("./options.js").ColorsType);
     container: HTMLElement;
     SVGuitarChordClass: any;
+    colors: import("./options.js").ColorsType;
     /** @type {import("svguitar").Chord} */
     chordConfig: import("svguitar").Chord;
     /** @type {any} */
@@ -52,10 +48,10 @@ export class EditableSVGuitarChord {
      */
     createDialog(): void;
     dialog: HTMLDivElement;
-    redRadio: HTMLInputElement;
-    greyRadio: HTMLInputElement;
-    blueRadio: HTMLInputElement;
-    blackRadio: HTMLInputElement;
+    primaryColorRadio: HTMLInputElement;
+    tertiaryColorRadio: HTMLInputElement;
+    secondaryColorRadio: HTMLInputElement;
+    defaultColorRadio: HTMLInputElement;
     textInput: HTMLInputElement;
     backdrop: HTMLDivElement;
     /**
@@ -63,9 +59,8 @@ export class EditableSVGuitarChord {
      */
     createOpenStringDialog(): void;
     openStringDialog: HTMLDivElement;
-    openRadio: HTMLInputElement;
     mutedRadio: HTMLInputElement;
-    openStringTextSection: HTMLDivElement;
+    openRadio: HTMLInputElement;
     openStringTextInput: HTMLInputElement;
     openStringBackdrop: HTMLDivElement;
     /**
@@ -87,15 +82,15 @@ export class EditableSVGuitarChord {
     calculateDynamicFrets(): number;
     /**
      * Draw the chord with interactive capabilities
-     * @param {number | undefined} [frets] - Force redraw even if already drawn
+     * @param {number | undefined} [frets] - Force primaryColorraw even if already drawn
      * @returns {EditableSVGuitarChord}
      */
     draw(frets?: number | undefined): EditableSVGuitarChord;
     /**
-     * Redraw the chord
-     * @param {number | undefined} [frets] - Force redraw even if already drawn
+     * primaryColorraw the chord
+     * @param {number | undefined} [frets] - Force primaryColorraw even if already drawn
      */
-    redraw(frets?: number | undefined): void;
+    primaryColorraw(frets?: number | undefined): void;
     /**
      * Add transparent placeholder dots for empty positions
      * @param {import("svguitar").Chord} config
@@ -272,7 +267,7 @@ export class EditableSVGuitarChord {
      */
     onChange(callback: (this: EditableSVGuitarChord) => void): EditableSVGuitarChord;
     /**
-     * Trigger the change callback if registered
+     * Trigger the change callback if registeprimaryColor
      */
     triggerChange(): void;
     /**

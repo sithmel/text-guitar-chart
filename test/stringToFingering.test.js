@@ -1635,7 +1635,7 @@ describe("stringToFingering", () => {
   ||||||
   ||||||`;
 
-      const result = stringToFingering(fingeringStr, { greyColor: "#AAAAAA" });
+      const result = stringToFingering(fingeringStr, { tertiaryColor: "#AAAAAA" });
       assert.equal(
         fingersContains(result, [
           [1, 1, { text: "", color: "#AAAAAA" }],
@@ -1651,7 +1651,7 @@ describe("stringToFingering", () => {
   ||||||
   ||||||`;
 
-      const result = stringToFingering(fingeringStr, { blueColor: "#0000FF" });
+      const result = stringToFingering(fingeringStr, { secondaryColor: "#0000FF" });
       assert.equal(
         fingersContains(result, [
           [1, 1, { text: "", color: "#0000FF" }],
