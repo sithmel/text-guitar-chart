@@ -1242,7 +1242,6 @@ describe("stringToFingering", () => {
   ||||||`;
 
       const result = stringToFingering(fingeringStr);
-      console.log(JSON.stringify(result, null, 2));
       assert.equal(
         fingersContains(result, [
           [1, 1, { text: "6", color: "#000000" }],
@@ -1300,7 +1299,6 @@ describe("stringToFingering", () => {
   ||||||`;
 
       const result = stringToFingering(fingeringStr);
-      console.log(JSON.stringify(result, null, 2));
       assert.equal(
         fingersContains(result, [
           [1, 1, { text: "f", color: "#000000" }],

@@ -1,4 +1,5 @@
-import { EditableSVGuitarChord, DOT_COLORS } from "./lib/editableSVGuitar.js";
+import { EditableSVGuitarChord } from "./lib/editableSVGuitar.js";
+import { defaultColors } from "./lib/options.js";
 import fingeringToString from "./lib/fingeringToString.js";
 import stringToFingering from "./lib/stringToFingering.js";
 import layoutChordStrings from "./lib/layoutChordStrings.js";
