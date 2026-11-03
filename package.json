@@ -2,7 +2,7 @@
   "name": "text-guitar-chart",
   "version": "0.3.1",
   "description": "A JavaScript library to write text based guitar chord charts and convert them to SVG.",
-  "main": "index.js",
+  "main": "./lib/index.js",
   "types": "types/index.d.ts",
   "type": "module",
   "scripts": {
